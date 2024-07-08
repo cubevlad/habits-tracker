@@ -49,7 +49,7 @@
     "./src/**/*",
     "./.eslintrc.js",
     "./.stylelintrc.js",
-    "./prettier.config.js",
+    "./.prettierrc",
     "./vite.config.ts",
     "./lint-staged.config.mjs"
   ],
