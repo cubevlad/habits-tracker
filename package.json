@@ -7,10 +7,10 @@
     "yarn": ">=1"
   },
   "scripts": {
-    "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
+    "start": "concurrently \"yarn server:start\" \"yarn client:start\"",
     "prepare": "husky || true",
     "precommit": "lint-staged",
-    "server:start": "cd server && npm run runtime",
+    "server:start": "cd server && yarn runtime",
     "server:build": "WIP",
     "client:start": "cd client && yarn start",
     "client:build": "cd client && yarn build",
