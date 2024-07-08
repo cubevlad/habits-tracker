@@ -24,10 +24,10 @@
     "lint-staged": "^15.2.7"
   },
   "lint-staged": {
-    "server/src/**/*.{js,jsx,json,css}": [
+    "server/src/**/*.{js,jsx,ts,tsx,json,css}": [
       "git add"
     ],
-    "client/src/**/*.{js,jsx,json,css}": [
+    "client/src/**/*.{js,jsx,ts,tsx,json,css}": [
       "git add"
     ]
   }
