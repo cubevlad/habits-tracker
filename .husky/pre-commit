@@ -9,4 +9,4 @@ npm install
 cd ../
 ls
 
-npm run
+npm run precommit
