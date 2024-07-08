@@ -7,6 +7,4 @@ cd ../server
 npm install
 
 cd ../
-ls
-
 npm run precommit
