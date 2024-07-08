@@ -47,10 +47,11 @@
   "include": [
     "./public",
     "./src/**/*",
-    ".eslintrc.js",
-    ".stylelintrc.js",
-    "prettier.config.js",
-    "vite.config.ts"
+    "./.eslintrc.js",
+    "./.stylelintrc.js",
+    "./prettier.config.js",
+    "./vite.config.ts",
+    "./lint-staged.config.mjs"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

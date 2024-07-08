@@ -5,7 +5,7 @@
     "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
     "prepare": "husky || true",
     "precommit": "lint-staged",
-    "server:start": "cd server && nodemon index.js",
+    "server:start": "cd server && npm run runtime",
     "server:build": "WIP",
     "client:start": "cd client && yarn start",
     "client:build": "cd client && yarn build",

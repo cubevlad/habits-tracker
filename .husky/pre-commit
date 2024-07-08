@@ -1,10 +1,4 @@
-npm install
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-cd client
-yarn
-
-cd ../server
-npm install
-
-cd ../
-npm run precommit
+yarn lint-staged
