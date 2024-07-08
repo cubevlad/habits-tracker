@@ -1,0 +1,12 @@
+npm install
+
+cd client
+yarn
+
+cd ../server
+npm install
+
+cd ../
+ls
+
+npm run

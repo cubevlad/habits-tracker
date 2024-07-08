@@ -1,0 +1,34 @@
+{
+  "name": "habits-tracker",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
+    "prepare": "husky || true",
+    "precommit": "lint-staged",
+    "server:start": "cd server && nodemon index.js",
+    "server:build": "WIP",
+    "client:start": "cd client && yarn start && vite",
+    "client:build": "cd client && yarn install && tsc && vite build",
+    "client:test": "cd client && vitest run",
+    "client:coverage": "cd client && vitest run --coverage",
+    "client:lint": "cd client && yarn eslint ./src --ext .js,.ts,.tsx",
+    "client:lint:fix": "cd client && yarn eslint ./src --fix --ext .js,.ts,.tsx",
+    "client:lint-css": "cd client && yarn stylelint ./src --config ./.stylelintrc",
+    "client:lint-css:fix": "cd client && yarn stylelint --fix ./src --config ./.stylelintrc"
+  },
+  "author": "Kubasov Vladislav",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7"
+  },
+  "lint-staged": {
+    "server/src/**/*.{js,jsx,json,css}": [
+      "git add"
+    ],
+    "client/src/**/*.{js,jsx,json,css}": [
+      "git add"
+    ]
+  }
+}
