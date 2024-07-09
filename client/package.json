@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "yarn install && vite",
-    "build": "yarn install && tsc && vite build",
+    "build": "rm -rf dist && yarn install && tsc && vite build",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "lint": "yarn eslint ./src --ext .js,.ts,.tsx",
