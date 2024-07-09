@@ -1,6 +1,10 @@
 import express from 'express'
 import router from './infrastructure/UI/routers/router'
 import { httpLogger } from './logger'
+import dotenv from 'dotenv'
+dotenv.config({
+  path: '../.env',
+})
 
 const app = express()
 app.use(httpLogger)

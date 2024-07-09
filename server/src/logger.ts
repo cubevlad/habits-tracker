@@ -18,7 +18,7 @@ const logger = pino({
 export const httpLogger = pinoHttp({
   logger: logger,
   formatters: {
-    level(label) {
+    level(label: any) {
       return { level: label }
     },
   },

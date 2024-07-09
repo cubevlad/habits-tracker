@@ -15,11 +15,13 @@ export class UserCreateController {
     const date = new Date().toISOString()
     try {
       const userDTO = this.userMapper.toDomain({ ...body, created_at: date })
+
       const user = await this.userCreate.create({
         name: userDTO.name,
         password: userDTO.password,
         email: userDTO.email,
       })
+
       return user
     } catch (error) {
       throw error
