@@ -1,14 +1,17 @@
-import http from 'node:http'
+import express from 'express'
+import router from './infrastructure/UI/routers/router'
+import { httpLogger } from './logger'
 
-const HOST = '127.0.0.1'
-const PORT = 3000
+const app = express()
+app.use(httpLogger)
+app.use(express.json())
 
-const server = http.createServer((_request, response) => {
-  response.statusCode = 200
-  response.setHeader('Content-Type', 'text/plain')
-  response.end('Hello World')
+app.get('/', (req, res) => {
+  res.send('Hello World!').status(200)
 })
+app.use(router)
 
-server.listen(PORT, HOST, () => {
-  console.log(`Server running at http://${HOST}:${PORT}/`)
+const port = process.env.SERVER_PORT || 3000
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
 })
