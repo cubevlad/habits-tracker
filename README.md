@@ -9,8 +9,8 @@
 
 ### backend
 
-- [ ] add database
-- [ ] add auth
+- [x] add database
+- [x] add auth
 - [ ] add api
 
 ### frontend
@@ -24,7 +24,7 @@
   - [ ] CRUD with habits
   - [ ] adding new habit button with modal
   - [ ] info about habit
-- [ ] login page
-- [ ] registration page
+- [x] login page
+- [x] registration page
 - [ ] analytics page
 - [ ] settings page

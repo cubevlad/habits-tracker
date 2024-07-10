@@ -5,3 +5,4 @@ import { exampleKeys } from './constants'
 const queryKeys = mergeQueryKeys(exampleKeys)
 
 export { queryKeys }
+export * from './hooks'
