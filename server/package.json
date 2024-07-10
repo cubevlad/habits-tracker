@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "scripts": {
     "build": "rimraf ./build && tsc",
     "start:dev": "nodemon",
@@ -48,5 +48,8 @@
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.8.0",
     "uuid": "^10.0.0"
+  },
+  "prisma": {
+    "schema": "src/infrastructure/db/schema.prisma"
   }
 }

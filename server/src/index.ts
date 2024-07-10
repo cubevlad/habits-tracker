@@ -6,6 +6,8 @@ dotenv.config({
   path: '../.env',
 })
 
+console.log(process.env.DB_URL)
+
 const app = express()
 app.use(httpLogger)
 app.use(express.json())
