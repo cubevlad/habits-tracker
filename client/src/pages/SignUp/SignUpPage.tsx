@@ -7,19 +7,12 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 import { APP_LINKS } from '@app/router/constants'
-import type { LoginForm } from '@pages/LogIn/lib'
 import { DEFAULT_LOGIN_FORM_VALUES } from '@pages/LogIn/lib'
 import { api } from '@shared/api'
 import { useAuthCtx } from '@shared/context'
+import { StyledForm, StyledFormWrapper, StyledSubmitButton, StyledTitle } from '@styles'
 
-import { signUpSchema } from './model'
-
-import {
-  StyledLoginForm,
-  StyledLoginSumbitButton,
-  StyledLoginWrapper,
-  StyledTitle,
-} from '../LogIn/LoginPage.styled'
+import { signUpSchema, type SingUpForm } from './model'
 
 export const SignUpPage: React.FC = () => {
   const { setIsAuth } = useAuthCtx()
@@ -38,10 +31,10 @@ export const SignUpPage: React.FC = () => {
   } = methods
 
   const handleSubmitForm = useCallback(
-    async (user: LoginForm) => {
+    async (user: SingUpForm) => {
       try {
         const resp = await api.userService.user.signUp({ ...user })
-        localStorage.setItem('accessToken', resp.accessToken)
+        localStorage.setItem('local-token', resp.accessToken)
         setIsAuth(true)
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -59,9 +52,9 @@ export const SignUpPage: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <StyledLoginWrapper>
+      <StyledFormWrapper>
         <StyledTitle variant='h4'> Регистрация </StyledTitle>
-        <StyledLoginForm spacing={4}>
+        <StyledForm spacing={4}>
           <TextField
             {...register('name')}
             fullWidth
@@ -86,7 +79,7 @@ export const SignUpPage: React.FC = () => {
             label='Почта'
             variant='outlined'
           />
-          <StyledLoginSumbitButton
+          <StyledSubmitButton
             disabled={!isValid}
             sx={{ mt: 2 }}
             type='button'
@@ -94,10 +87,12 @@ export const SignUpPage: React.FC = () => {
             onClick={handleSubmit(handleSubmitForm)}
           >
             Загеристрироваться
-          </StyledLoginSumbitButton>
-        </StyledLoginForm>
-        <Link to={APP_LINKS.LOGIN}> Вернуться на страницу входа</Link>
-      </StyledLoginWrapper>
+          </StyledSubmitButton>
+        </StyledForm>
+        <Link style={{ color: 'unset' }} to={APP_LINKS.LOGIN}>
+          Вернуться на страницу входа
+        </Link>
+      </StyledFormWrapper>
     </FormProvider>
   )
 }

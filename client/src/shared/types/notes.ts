@@ -1,7 +1,7 @@
 export type Note = {
   id: string
-  itemId?: string
+  userId?: string
   content: string
-  created_at: string
-  modified_at: string
+  createdAt: string
+  modifiedAt: string
 }

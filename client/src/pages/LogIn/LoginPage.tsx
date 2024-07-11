@@ -9,14 +9,9 @@ import { Link } from 'react-router-dom'
 import { APP_LINKS } from '@app/router/constants'
 import { api } from '@shared/api'
 import { useAuthCtx } from '@shared/context'
+import { StyledForm, StyledFormWrapper, StyledSubmitButton, StyledTitle } from '@styles'
 
 import { DEFAULT_LOGIN_FORM_VALUES, type LoginForm } from './lib'
-import {
-  StyledLoginForm,
-  StyledLoginSumbitButton,
-  StyledLoginWrapper,
-  StyledTitle,
-} from './LoginPage.styled'
 import { loginSchema } from './model'
 
 export const LoginPage: React.FC = () => {
@@ -57,9 +52,9 @@ export const LoginPage: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <StyledLoginWrapper>
+      <StyledFormWrapper>
         <StyledTitle variant='h4'> Добро пожаловать </StyledTitle>
-        <StyledLoginForm spacing={4}>
+        <StyledForm spacing={4}>
           <TextField
             {...register('name')}
             fullWidth
@@ -76,15 +71,7 @@ export const LoginPage: React.FC = () => {
             label='Пароль'
             variant='outlined'
           />
-          <TextField
-            {...register('email')}
-            fullWidth
-            error={!isValid && !!errors.email?.message}
-            helperText={isValid ? '' : errors.email?.message}
-            label='Почта'
-            variant='outlined'
-          />
-          <StyledLoginSumbitButton
+          <StyledSubmitButton
             disabled={!isValid}
             sx={{ mt: 2 }}
             type='button'
@@ -92,11 +79,13 @@ export const LoginPage: React.FC = () => {
             onClick={handleSubmit(handleSubmitForm)}
           >
             Войти
-          </StyledLoginSumbitButton>
-        </StyledLoginForm>
+          </StyledSubmitButton>
+        </StyledForm>
         Нет аккаунта?
-        <Link to={APP_LINKS.SIGNUP}> Зарегистрируйтесь</Link>
-      </StyledLoginWrapper>
+        <Link style={{ color: 'unset' }} to={APP_LINKS.SIGNUP}>
+          Зарегистрируйтесь
+        </Link>
+      </StyledFormWrapper>
     </FormProvider>
   )
 }

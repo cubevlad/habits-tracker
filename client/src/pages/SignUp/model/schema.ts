@@ -1,16 +1,18 @@
 import * as yup from 'yup'
 
+import { VALIDATION_MESSAGES } from '@shared/constants'
+
 export const signUpSchema = yup.object({
-  name: yup
-    .string()
-    .required('should not be empty')
-    .min(2, 'must be at least 2 characters long')
-    .trim(),
+  name: yup.string().required(VALIDATION_MESSAGES.required).min(2, VALIDATION_MESSAGES.min).trim(),
   password: yup
     .string()
-    .required('should not be empty')
-    .min(4, 'must be at least 2 characters long')
-    .max(16, 'max available length is 16')
+    .required(VALIDATION_MESSAGES.required)
+    .min(2, VALIDATION_MESSAGES.min)
+    .max(16, VALIDATION_MESSAGES.max)
     .trim(),
-  email: yup.string().required('should not be empty').email(),
+  email: yup
+    .string()
+    .required(VALIDATION_MESSAGES.required)
+    .email(VALIDATION_MESSAGES.email)
+    .trim(),
 })

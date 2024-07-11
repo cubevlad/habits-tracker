@@ -3,7 +3,7 @@ import { ru as ruLocale } from 'date-fns/locale'
 
 import type { ItemOptions, TableViewItem } from '@shared/types'
 
-import { formatRu } from './formatRu'
+import { formatRu } from './date/formatRu'
 
 export const createTableViewItemsList = (
   currentViewDate: Date,

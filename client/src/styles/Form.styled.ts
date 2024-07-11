@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from '@mui/material'
 import styled from 'styled-components'
 
-export const StyledLoginWrapper = styled(Box)`
+export const StyledFormWrapper = styled(Box)`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -17,14 +17,14 @@ export const StyledTitle = styled(Typography)`
   margin-bottom: 20px;
 `
 
-export const StyledLoginForm = styled(Stack)`
+export const StyledForm = styled(Stack)`
   padding: 40px;
   border: 1px solid ${({ theme }) => theme.palette.primary};
   border-radius: 8px;
   width: 100%;
 `
 
-export const StyledLoginSumbitButton = styled(Button)`
+export const StyledSubmitButton = styled(Button)`
   background-color: ${({ theme }) => theme.palette.primary};
   color: ${({ theme }) => theme.palette.text};
 

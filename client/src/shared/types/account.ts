@@ -1,12 +1,13 @@
 export type AccountMeta = {
   id: string
+  createdAt: string
   email: string
-  created_at: string
   name: string
+  role: 'Admin' | 'User'
 }
 
 export type SignInRequestBody = {
-  email: string
+  name: string
   password: string
 }
 

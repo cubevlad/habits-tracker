@@ -48,34 +48,43 @@ router.get('/current', async (req: Request, res: Response) => {
 router.post('/signin', async (req: TypedRequestBody<User>, res: Response) => {
   // validate fields
   const errors = describeBodyErrorMessage<User>(req.body, ['name', 'password'])
+
   if (errors.isError) {
     res.status(500)
     res.send({ ...errors.fields })
   }
+
   // check if user exist
   const currentUser = await prismaClient.user.findFirst({
     where: { name: req.body.name },
   })
+
   if (!currentUser) {
     res.status(404)
     res.send({ message: 'No users found' })
     return
   }
-  // verify passwors
+
+  // verify password
   const isPassValid = await compare(req.body.password, currentUser.password)
+
   if (!isPassValid) {
     res.status(500)
     res.send({ message: 'Password is not correct' })
     return
   }
+
   // create access token
   const { accessToken, refreshToken } = tokenService.generateTokens(req.body.name, req.body.id)
+
   await tokenService.saveToken(currentUser.id, refreshToken)
+
   res.cookie('jwt', refreshToken, {
     httpOnly: true,
-    sameSite: 'none',
+    secure: false,
     maxAge: 24 * 60 * 60 * 1000,
   })
+
   res.json({ accessToken, refreshToken })
 })
 
@@ -84,24 +93,30 @@ router.post('/signin', async (req: TypedRequestBody<User>, res: Response) => {
  */
 router.post('/signup', async (req: TypedRequestBody<User>, res: Response) => {
   const errors = describeBodyErrorMessage<User>(req.body, ['name', 'password', 'email'])
+
   if (errors.isError) {
     res.status(500)
     res.send({ ...errors.fields })
     return
   }
-  // check usename - if exist -> return
+
+  // check username - if exist -> return
   const foundedUser = await prismaClient.user.findFirst({
     where: { name: req.body.name },
   })
+
   if (foundedUser) {
     res.status(500)
     res.send('User with this nickname is already exist')
     return
   }
+
   // encrypt pass
   const pass = await hash(req.body.password, 10)
+
   // create new user
   const userId = randomUUID()
+
   await prismaClient.user.create({
     data: {
       email: req.body.email,
@@ -112,14 +127,18 @@ router.post('/signup', async (req: TypedRequestBody<User>, res: Response) => {
       password: pass,
     },
   })
+
   // create token using username
   const { accessToken, refreshToken } = tokenService.generateTokens(req.body.name, req.body.id)
+
   await tokenService.saveToken(userId, refreshToken)
+
   res.cookie('jwt', refreshToken, {
     httpOnly: true,
-    sameSite: 'none',
+    secure: false,
     maxAge: 24 * 60 * 60 * 1000,
   })
+
   return res.json({ accessToken, refreshToken })
 })
 
@@ -128,10 +147,12 @@ router.post('/signup', async (req: TypedRequestBody<User>, res: Response) => {
  */
 router.post('/logout', async (req: Request, res: Response) => {
   const token = tokenService.getUserData(req)
+
   if (token && token.userId) {
     const { userId } = token
     await tokenService.removeToken(userId)
   }
+
   return res.status(200)
 })
 
@@ -140,25 +161,36 @@ router.post('/logout', async (req: Request, res: Response) => {
  * Validate access token Refresh token
  */
 router.get('/refresh', async (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies
-  // validate token
+ const { refreshToken } = req.cookies
+
+ // validate token
   const is_valid = verify(refreshToken, process.env.JWT_REFRESH_SECRET as string)
-  if (!is_valid) return
+
+  if (!is_valid) {
+    return
+  }
+
   // find current user
   const user_data = tokenService.getUserData(req)
+
   if (user_data) {
     const { name, userId } = user_data
+
     // find token within db
     const db_token = await tokenService.findToken(userId)
+
     if (db_token) {
       const { accessToken, refreshToken } = tokenService.generateTokens(name, userId)
+
       await tokenService.saveToken(userId, refreshToken)
+
       res.status(200)
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
-        sameSite: 'none',
+        secure: false,
         maxAge: 24 * 60 * 60 * 1000,
       })
+
       return res.send({ accessToken, refreshToken })
     }
   }

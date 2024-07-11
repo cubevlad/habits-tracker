@@ -14,6 +14,7 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         'no-bitwise': 'off',
+        'no-underscore-dangle': 'off',
       },
     },
   ],

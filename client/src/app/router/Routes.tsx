@@ -1,10 +1,9 @@
 import { Suspense } from 'react'
 
-import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
-
 import { AppLayout } from '@app/AppLayout'
 import { HomePage, LoginPage, SignUpPage } from '@pages'
 import { useAuthCtx } from '@shared/context'
+import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 
 import { APP_LINKS } from './constants'
 import type { Routes as RoutesType } from './types'
@@ -28,10 +27,11 @@ const Routes = () => {
             {routes.map(({ caption, element, to }) => (
               <Route key={caption} element={element} path={to} />
             ))}
+            <Route element={<Navigate replace to='/' />} path='*' />
           </ReactRoutes>
         ) : (
           <ReactRoutes>
-            <Route element={<Navigate replace to='/' />} path='*' />
+            <Route element={<Navigate replace to='/login' />} path='*' />
             <Route element={<LoginPage />} path={APP_LINKS.LOGIN} />
             <Route element={<SignUpPage />} path={APP_LINKS.SIGNUP} />
           </ReactRoutes>

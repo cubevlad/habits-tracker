@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { api } from '@shared/api'
 
-export const useQueryAuth = () => {
+export const useQueryGetCurrentUser = () => {
   return useQuery({
     queryKey: ['auth'],
     queryFn: async () => api.userService.user.current(),
