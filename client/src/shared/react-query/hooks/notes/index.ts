@@ -1,9 +1,8 @@
-import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns/esm'
-
 import { api } from '@shared/api'
 import { getFirstAndLastDayOfMonth } from '@shared/lib'
 import { queryKeys } from '@shared/react-query/constants'
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns/esm'
 
 export const useQueryGetNotes = (date: Date) => {
   const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth(date)

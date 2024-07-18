@@ -1,6 +1,5 @@
-import { action, computed, makeObservable, observable } from 'mobx'
-
 import { formatRu } from '@shared/lib'
+import { action, computed, makeObservable, observable } from 'mobx'
 
 export class TableViewStore {
   currentViewDate = new Date()

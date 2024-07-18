@@ -21,8 +21,14 @@ export class NotesController {
     return data
   }
 
-  public createNote = async (note: Pick<Note, 'content'>) => {
+  public createNote = async (note: Pick<Note, 'content' | 'createdAt'>) => {
     const { data } = await this.instance.post<Note>('notes/create', note)
+
+    return data
+  }
+
+  public updateNote = async (note: Pick<Note, 'content' | 'id'>) => {
+    const { data } = await this.instance.put<Note>('notes/update', note)
 
     return data
   }
