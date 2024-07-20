@@ -1,8 +1,9 @@
-import { Box, Typography } from '@mui/material'
+import { useEffect } from 'react'
+
+import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '@shared/context'
-import { useQueryGetNotes } from '@shared/react-query/hooks/notes'
 
 import { useNotesForm } from './lib'
 import { StyledNotesWrapper } from './Notes.styled'
@@ -11,11 +12,22 @@ import { NotesList } from './ui'
 export const Notes = observer(() => {
   const {
     tableViewStore: { currentViewDate },
+    notesStore: { notes, fetchNotes, isLoading },
   } = useStore()
 
-  const { data: notes } = useQueryGetNotes(currentViewDate)
+  useEffect(() => {
+    fetchNotes(currentViewDate)
+  }, [currentViewDate, fetchNotes])
 
   const { Form: NoteForm } = useNotesForm()
+
+  if (isLoading) {
+    return (
+      <Stack alignItems='center'>
+        <CircularProgress />
+      </Stack>
+    )
+  }
 
   return (
     <StyledNotesWrapper>

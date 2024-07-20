@@ -4,10 +4,11 @@ import { Delete, Edit } from '@mui/icons-material'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
+import { useStore } from '@shared/context'
 import { formatRu } from '@shared/lib'
-import { useMutateDeleteNote } from '@shared/react-query/hooks/notes'
 import type { Note } from '@shared/types'
 
+import { ICON_SX } from './lib'
 import { StyledNoteListItem, StyledNoteListItemHeader } from './NoteListItem.styled'
 
 import { useNotesForm } from '../../../../lib'
@@ -17,35 +18,37 @@ type NoteListItemProps = {
 }
 
 export const NoteListItem: React.FC<NoteListItemProps> = observer(({ note }) => {
+  const createdAt = formatRu(new Date(note.createdAt), 'd MMMM yyyy', false)
+
   const [isVisible, setIsVisible] = useState(false)
+
+  const {
+    notesStore: { deleteNote },
+  } = useStore()
 
   const { Form: NoteForm, handleOpen } = useNotesForm(note)
 
-  const { mutateAsync: mutDeleteNote } = useMutateDeleteNote()
-
   const handleDeleteNote = async (id: string) => {
-    await mutDeleteNote(id)
+    await deleteNote(id)
   }
 
-  const createdAt = formatRu(new Date(note.createdAt), 'd MMMM yyyy', false)
+  const handleMouseEnter = () => setIsVisible(true)
+  const handleMouseLeave = () => setIsVisible(false)
 
   return (
-    <StyledNoteListItem
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
-    >
+    <StyledNoteListItem onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <StyledNoteListItemHeader direction='row' spacing={1}>
         <Typography flex='1 1 auto' variant='body2'>
           {createdAt}
         </Typography>
         {isVisible ? (
           <IconButton size='small' onClick={handleOpen}>
-            <Edit fontSize='small' />
+            <Edit fontSize='inherit' sx={ICON_SX} />
           </IconButton>
         ) : null}
         {isVisible ? (
           <IconButton size='small' onClick={() => handleDeleteNote(note.id)}>
-            <Delete fontSize='small' />
+            <Delete fontSize='small' sx={ICON_SX} />
           </IconButton>
         ) : null}
       </StyledNoteListItemHeader>

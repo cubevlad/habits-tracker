@@ -4,7 +4,7 @@ module.exports = {
     project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
   },
-  extends: ['@frknnice/eslint-config', 'plugin:@tanstack/eslint-plugin-query/recommended'],
+  extends: ['@frknnice/eslint-config'],
   // currently we are using vite instead webpack
   rules: {
     'import/dynamic-import-chunkname': 'off',

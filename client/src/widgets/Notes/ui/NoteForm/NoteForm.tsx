@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite'
 import { useForm, FormProvider } from 'react-hook-form'
 
 import { useStore } from '@shared/context'
-import { useMutateCreateNote, useMutateUpdateNote } from '@shared/react-query/hooks/notes'
 import type { Note } from '@shared/types'
 import { StyledForm, StyledFormWrapper, StyledSubmitButton, StyledTitle } from '@styles'
 
@@ -18,10 +17,8 @@ type NoteFormProps = {
 }
 
 export const NoteForm = observer(({ note, onClose }: NoteFormProps) => {
-  const { mutateAsync: mutCreateNote } = useMutateCreateNote()
-  const { mutateAsync: mutUpdateNote } = useMutateUpdateNote()
-
   const {
+    notesStore: { createNote, updateNote },
     tableViewStore: { currentViewDate },
   } = useStore()
 
@@ -41,8 +38,8 @@ export const NoteForm = observer(({ note, onClose }: NoteFormProps) => {
   const handleSubmitForm = async ({ content }: { content: string }) => {
     // eslint-disable-next-line no-unused-expressions
     note
-      ? mutUpdateNote({ content, id: note.id })
-      : mutCreateNote({ content, createdAt: currentViewDate })
+      ? await updateNote({ content, id: note.id })
+      : await createNote({ content, createdAt: currentViewDate })
 
     onClose?.()
   }

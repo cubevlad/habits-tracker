@@ -10,4 +10,6 @@ export const StyledNoteListItem = styled.div`
 export const StyledNoteListItemHeader = styled(Stack)`
   margin-bottom: 2rem;
   color: ${({ theme }) => theme.palette.text.secondary};
+  height: 1rem;
+  align-items: center;
 `

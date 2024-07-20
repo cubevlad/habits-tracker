@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 import type { Note } from '@shared/types'
@@ -10,6 +10,10 @@ type NotesListProps = {
 }
 
 export const NotesList: React.FC<NotesListProps> = observer(({ notes }) => {
+  if (!notes.length) {
+    return <Typography>Нет заметок</Typography>
+  }
+
   return (
     <Stack spacing={2}>
       {notes.map((note) => (

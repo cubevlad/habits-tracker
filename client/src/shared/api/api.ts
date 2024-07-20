@@ -37,6 +37,7 @@ class Api {
           if (!isRefreshing) {
             isRefreshing = true
 
+            // TODO: проверить работоспособность
             this.instance.get('/user/refresh').then(({ data }) => {
               const { access_token } = data
               if (axios.defaults.headers) {
@@ -57,4 +58,5 @@ class Api {
   }
 }
 
-export const api = new Api({})
+const api = new Api({})
+export { api, Api }
