@@ -23,7 +23,7 @@ export const ViewModeToggler: React.FC = () => {
   }
 
   return (
-    <div>
+    <>
       <IconButton disableRipple size='small' onClick={handleMenuOpen}>
         <ViewQuilt />
       </IconButton>
@@ -62,6 +62,6 @@ export const ViewModeToggler: React.FC = () => {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   )
 }

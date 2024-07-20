@@ -1,4 +1,4 @@
 export type ViewMode = {
-  type: 'row' | 'table'
+  type: 'cards' | 'table'
   date: 'month' | 'week'
 }
