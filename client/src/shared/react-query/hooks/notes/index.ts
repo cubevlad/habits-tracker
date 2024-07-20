@@ -1,8 +1,9 @@
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns/esm'
+
 import { api } from '@shared/api'
 import { getFirstAndLastDayOfMonth } from '@shared/lib'
 import { queryKeys } from '@shared/react-query/constants'
-import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns/esm'
 
 export const useQueryGetNotes = (date: Date) => {
   const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth(date)
@@ -22,6 +23,17 @@ export const useMutateCreateNote = () => {
 
   return useMutation({
     mutationFn: api.notesService.notes.createNote,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: queryKeys.notes.all._def })
+    },
+  })
+}
+
+export const useMutateUpdateNote = () => {
+  const client = useQueryClient()
+
+  return useMutation({
+    mutationFn: api.notesService.notes.updateNote,
     onSuccess: () => {
       client.invalidateQueries({ queryKey: queryKeys.notes.all._def })
     },

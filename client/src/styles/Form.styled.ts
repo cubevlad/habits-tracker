@@ -6,6 +6,7 @@ export const StyledFormWrapper = styled(Box)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-color: ${({ theme }) => theme.palette.background.paper};
   display: flex;
   flex-direction: column;
   align-items: center;

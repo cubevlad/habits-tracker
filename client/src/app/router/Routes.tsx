@@ -1,9 +1,10 @@
 import { Suspense } from 'react'
 
+import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
+
 import { AppLayout } from '@app/AppLayout'
 import { HomePage, LoginPage, SignUpPage } from '@pages'
 import { useAuthCtx } from '@shared/context'
-import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 
 import { APP_LINKS } from './constants'
 import type { Routes as RoutesType } from './types'

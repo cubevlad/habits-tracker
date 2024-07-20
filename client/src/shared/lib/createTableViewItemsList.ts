@@ -1,6 +1,7 @@
-import type { ItemOptions, TableViewItem } from '@shared/types'
 import { format, getDaysInMonth } from 'date-fns/esm'
 import { ru as ruLocale } from 'date-fns/locale'
+
+import type { ItemOptions, TableViewItem } from '@shared/types'
 
 import { formatRu } from './date/formatRu'
 

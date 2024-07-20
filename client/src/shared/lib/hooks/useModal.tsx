@@ -1,24 +1,25 @@
 import { useState, useCallback, useMemo } from 'react'
 
-import { DialogContent, Modal } from '@mui/material'
+import { DialogContent, Modal as MuiModal } from '@mui/material'
 
-type UseModalProps<U> = {
-  props?: U
-  children: (props?: U) => JSX.Element
-}
+export const useModal = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const handleOpen = useCallback(() => setIsOpen(true), [])
+  const handleClose = useCallback(() => setIsOpen(false), [])
 
-export const useModal = <T extends object | null>({ props, children }: UseModalProps<T>) => {
-  const [open, setOpen] = useState(false)
-  const handleOpen = useCallback(() => setOpen(true), [])
-  const handleClose = useCallback(() => setOpen(false), [])
-
-  const modal = useMemo(
-    () => (
-      <Modal disableAutoFocus open={open} onClose={handleClose}>
-        <DialogContent>{children?.(props)}</DialogContent>
-      </Modal>
-    ),
-    [children, handleClose, open, props]
+  const Modal = useCallback(
+    ({ children, additional }: { children: React.ReactNode; additional?: any }) => {
+      return (
+        <MuiModal disableAutoFocus open={isOpen} onClose={handleClose} {...additional}>
+          <DialogContent>{children}</DialogContent>
+        </MuiModal>
+      )
+    },
+    [handleClose, isOpen]
   )
-  return useMemo(() => ({ modal, handleClose, handleOpen }), [modal, handleClose, handleOpen])
+
+  return useMemo(
+    () => ({ Modal, handleClose, handleOpen, isOpen }),
+    [Modal, handleClose, handleOpen, isOpen]
+  )
 }

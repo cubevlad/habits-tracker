@@ -22,9 +22,7 @@ export const TableViewItem: React.FC<TableViewItemProps> = observer(({ item }) =
   const isMonthsAreEqual = initialViewData.getMonth() === item.monthNumber
   const selected = isDaysAreEqual && isMonthsAreEqual
 
-  const { modal, handleOpen: handleModalOpen } = useModal<Item | null>({
-    children: () => <ItemModalView item={item} />,
-  })
+  const { Modal, handleOpen: handleModalOpen } = useModal()
 
   return (
     <>
@@ -36,7 +34,9 @@ export const TableViewItem: React.FC<TableViewItemProps> = observer(({ item }) =
           </Stack>
         )}
       </StyledTableViewItem>
-      {modal}
+      <Modal>
+        <ItemModalView item={item} />
+      </Modal>
     </>
   )
 })

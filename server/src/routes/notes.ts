@@ -76,6 +76,42 @@ router.post('/create', async (req: Request, res: Response) => {
   res.send(note)
 })
 
+router.put('/update', async (req: Request, res: Response) => {
+  const token = tokenService.getUserData(req)
+
+  if (!token) {
+    res.status(401)
+    res.send({ message: 'Unauthorized' })
+    return
+  }
+
+  const user = await prismaClient.user.findFirst({
+    where: { name: token.name },
+  })
+
+  if (!user) {
+    res.status(404)
+    res.send({ message: 'No users found' })
+    return
+  }
+
+  const { id } = user
+  const { content, id: noteId } = req.body
+
+  const note = await prismaClient.note.update({
+    where: {
+      id: noteId,
+      userId: id,
+    },
+    data: {
+      content: content,
+      modifiedAt: new Date(Date.now()),
+    },
+  })
+
+  res.send(note)
+})
+
 router.delete('/:id', async (req: Request, res: Response) => {
   const token = tokenService.getUserData(req)
 
