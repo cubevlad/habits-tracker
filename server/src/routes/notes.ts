@@ -133,6 +133,18 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
   const { id } = req.params
 
+  const note = await prismaClient.note.findFirst({
+    where: {
+      userId: user.id,
+    },
+  })
+
+  if (!note) {
+    res.status(404)
+    res.send({ message: 'No notes found' })
+    return
+  }
+
   await prismaClient.note.delete({
     where: {
       id: id,
