@@ -28,8 +28,8 @@ export const NoteListItem: React.FC<NoteListItemProps> = observer(({ note }) => 
 
   const { Form: NoteForm, handleOpen } = useNotesForm(note)
 
-  const handleDeleteNote = async (id: string) => {
-    await deleteNote(id)
+  const handleDeleteNote = async () => {
+    await deleteNote(note.id, note.createdAt)
   }
 
   const handleMouseEnter = () => setIsVisible(true)
@@ -47,7 +47,7 @@ export const NoteListItem: React.FC<NoteListItemProps> = observer(({ note }) => 
           </IconButton>
         ) : null}
         {isVisible ? (
-          <IconButton size='small' onClick={() => handleDeleteNote(note.id)}>
+          <IconButton size='small' onClick={handleDeleteNote}>
             <Delete fontSize='small' sx={ICON_SX} />
           </IconButton>
         ) : null}

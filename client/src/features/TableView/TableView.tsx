@@ -1,30 +1,38 @@
 import { observer } from 'mobx-react-lite'
 
-import { useStore } from '@shared/context'
-import { createTableViewItemsList } from '@shared/lib'
+import { useStore, useViewModeCtx } from '@shared/context'
+import { createTableViewItemsList, getCurrentViewMode } from '@shared/lib'
 
-import { StyledTableViewWrapper } from './TableView.styled'
-import { TableViewItem } from './ui'
-
-const MATRIX = 35
+import { MAX_ITEMS_LENGTH_AVAILABLE_TO_RENDER } from './lib'
+import { CardsViewList } from './ui'
 
 export const TableView: React.FC = observer(() => {
   const {
     tableViewStore: { currentViewDate },
   } = useStore()
 
-  const daysList = createTableViewItemsList(currentViewDate)
+  const { mode } = useViewModeCtx()
+  const { isTableView, isCardsView } = getCurrentViewMode(mode)
+
   const copy = new Date(currentViewDate)
-  const nextDays = createTableViewItemsList(new Date(copy.setMonth(copy.getMonth() + 1)), {
-    disabled: true,
-  })
-  const tableItemsToRender = [...daysList, ...nextDays.slice(0, MATRIX - daysList.length)]
+
+  const daysOfMonthList = createTableViewItemsList(currentViewDate)
+  const daysOfNextMonthList = createTableViewItemsList(
+    new Date(copy.setMonth(copy.getMonth() + 1)),
+    {
+      disabled: true,
+    }
+  )
+
+  const tableItemsToRender = [
+    ...daysOfMonthList,
+    ...daysOfNextMonthList.slice(0, MAX_ITEMS_LENGTH_AVAILABLE_TO_RENDER - daysOfMonthList.length),
+  ]
 
   return (
-    <StyledTableViewWrapper>
-      {tableItemsToRender.map((item) => (
-        <TableViewItem key={item.id} item={item} />
-      ))}
-    </StyledTableViewWrapper>
+    <>
+      {isCardsView ? <CardsViewList list={tableItemsToRender} /> : null}
+      {isTableView ? <div>table</div> : null}
+    </>
   )
 })

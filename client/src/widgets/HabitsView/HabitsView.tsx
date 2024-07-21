@@ -1,17 +1,12 @@
 import { observer } from 'mobx-react-lite'
 
-import { MonthNavigator } from '@features/MonthNavigator'
+import { DateNavigator } from '@features/DateNavigator'
 import { TableView } from '@features/TableView'
-import type { ViewMode } from '@shared/types'
 
-type HabitsViewProps = {
-  mode: ViewMode
-}
-
-export const HabitsView: React.FC<HabitsViewProps> = observer(({ mode }) => {
+export const HabitsView: React.FC = observer(() => {
   return (
     <>
-      <MonthNavigator />
+      <DateNavigator />
       <TableView />
     </>
   )

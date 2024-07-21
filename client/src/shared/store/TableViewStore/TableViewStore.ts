@@ -12,8 +12,8 @@ export class TableViewStore {
       currentViewDate: observable,
       formattedDate: computed,
 
-      handleDecrement: action,
-      handleIncrement: action,
+      handleDecrementMonth: action,
+      handleIncrementMonth: action,
     })
   }
 
@@ -21,12 +21,12 @@ export class TableViewStore {
     return formatRu(new Date(this.currentViewDate), 'MMMM yyyy')
   }
 
-  handleDecrement = () => {
+  handleDecrementMonth = () => {
     const copy = new Date(this.currentViewDate)
     this.currentViewDate = new Date(copy.setMonth(copy.getMonth() - 1))
   }
 
-  handleIncrement = () => {
+  handleIncrementMonth = () => {
     const copy = new Date(this.currentViewDate)
     this.currentViewDate = new Date(copy.setMonth(copy.getMonth() + 1))
   }

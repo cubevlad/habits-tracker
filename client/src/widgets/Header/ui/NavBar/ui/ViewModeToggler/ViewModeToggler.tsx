@@ -5,12 +5,12 @@ import { IconButton, Menu, MenuItem } from '@mui/material'
 
 import { useViewModeCtx } from '@shared/context'
 
-import { RU_LOCALE_VIEW_MODE_MAP, VIEW_DATE_MODE, VIEW_TYPE_MODE } from './lib'
+import { RU_LOCALE_VIEW_MODE_MAP, VIEW_TYPE_MODE } from './lib'
 
 export const ViewModeToggler: React.FC = () => {
   const {
     handleChangeViewMode,
-    mode: { date, type },
+    mode: { type },
   } = useViewModeCtx()
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
@@ -36,19 +36,6 @@ export const ViewModeToggler: React.FC = () => {
         open={!!anchorEl}
         onClose={handleMenuClose}
       >
-        {VIEW_DATE_MODE.map((dateMode) => (
-          <MenuItem
-            key={dateMode}
-            selected={date === dateMode}
-            onClick={() => {
-              handleChangeViewMode({ date: dateMode })
-              handleMenuClose()
-            }}
-          >
-            {RU_LOCALE_VIEW_MODE_MAP[dateMode]}
-          </MenuItem>
-        ))}
-        <hr />
         {VIEW_TYPE_MODE.map((typeMode) => (
           <MenuItem
             key={typeMode}

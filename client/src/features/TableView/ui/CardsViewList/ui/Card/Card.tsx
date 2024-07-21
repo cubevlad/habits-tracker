@@ -3,16 +3,16 @@ import { observer } from 'mobx-react-lite'
 
 import { useStore } from '@shared/context'
 import { useModal } from '@shared/lib'
-import type { TableViewItem as Item } from '@shared/types'
+import type { TableViewItem } from '@shared/types'
 
-import { StyledTableViewItem } from './TableViewItem.styled'
+import { StyledCardWrapper } from './Card.styled'
 import { ItemModalView } from './ui'
 
-type TableViewItemProps = {
-  item: Item
+type CardProps = {
+  item: TableViewItem
 }
 
-export const TableViewItem: React.FC<TableViewItemProps> = observer(({ item }) => {
+export const Card: React.FC<CardProps> = observer(({ item }) => {
   const {
     tableViewStore: { initialViewData },
   } = useStore()
@@ -24,16 +24,18 @@ export const TableViewItem: React.FC<TableViewItemProps> = observer(({ item }) =
 
   const { Modal, handleOpen: handleModalOpen } = useModal()
 
+  const handleItemClick = () => !item.disabled && handleModalOpen()
+
   return (
     <>
-      <StyledTableViewItem $disabled={item.disabled} $selected={selected} onClick={handleModalOpen}>
+      <StyledCardWrapper $disabled={item.disabled} $selected={selected} onClick={handleItemClick}>
         {item.disabled ? null : (
           <Stack alignItems='center' direction='row' justifyContent='space-between'>
             <Typography>{item.index}</Typography>
             <Typography>{dayName}</Typography>
           </Stack>
         )}
-      </StyledTableViewItem>
+      </StyledCardWrapper>
       <Modal>
         <ItemModalView item={item} />
       </Modal>

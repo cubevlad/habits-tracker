@@ -10,10 +10,9 @@ export const useViewMode = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(savedAppViewMode ?? DEFAULT_VIEW_MODE)
 
   const handleChangeViewMode = useCallback(
-    ({ date, type }: Partial<ViewMode>) =>
+    ({ type }: Partial<ViewMode>) =>
       setViewMode((prevViewMode) => ({
         ...prevViewMode,
-        date: date ?? prevViewMode.date,
         type: type ?? prevViewMode.type,
       })),
     []

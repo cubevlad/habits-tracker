@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import styled from 'styled-components'
 
 export const StyledItemModalViewWrapper = styled(Box)`
-  width: 400px;
+  min-width: 400px;
   position: absolute;
   top: 50%;
   left: 50%;

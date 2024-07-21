@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
-
-import { Box, CircularProgress, Stack, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '@shared/context'
@@ -9,25 +7,12 @@ import { useNotesForm } from './lib'
 import { StyledNotesWrapper } from './Notes.styled'
 import { NotesList } from './ui'
 
-export const Notes = observer(() => {
+export const Notes: React.FC = observer(() => {
   const {
-    tableViewStore: { currentViewDate },
-    notesStore: { notes, fetchNotes, isLoading },
+    notesStore: { notes },
   } = useStore()
 
-  useEffect(() => {
-    fetchNotes(currentViewDate)
-  }, [currentViewDate, fetchNotes])
-
   const { Form: NoteForm } = useNotesForm()
-
-  if (isLoading) {
-    return (
-      <Stack alignItems='center'>
-        <CircularProgress />
-      </Stack>
-    )
-  }
 
   return (
     <StyledNotesWrapper>

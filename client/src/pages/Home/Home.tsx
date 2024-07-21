@@ -1,20 +1,35 @@
-import { Stack } from '@mui/material'
+import { CircularProgress, Stack } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 
-import { useViewModeCtx } from '@shared/context'
+import { useStore, useViewModeCtx } from '@shared/context'
+import { getCurrentViewMode } from '@shared/lib'
+import { Notes } from '@shared/ui'
 import { HabitsView } from '@widgets/HabitsView'
-import { Notes } from '@widgets/Notes'
 
-export const HomePage: React.FC = () => {
+import { useFetchHomePageData } from './lib'
+
+export const HomePage: React.FC = observer(() => {
+  const {
+    notesStore: { isLoading },
+  } = useStore()
+
   const { mode } = useViewModeCtx()
+  const { isTableView } = getCurrentViewMode(mode)
 
-  const isTableView = mode.type === 'table'
+  useFetchHomePageData()
+
+  if (isLoading) {
+    return (
+      <Stack alignItems='center' flex='1 1 auto' justifyContent='center'>
+        <CircularProgress />
+      </Stack>
+    )
+  }
 
   return (
     <Stack flex='1 1 auto' spacing={2}>
-      <Stack alignItems='center' flex='1 1 auto' maxHeight={800} minHeight={800}>
-        <HabitsView mode={mode} />
-      </Stack>
+      <HabitsView />
       {isTableView ? <Notes /> : null}
     </Stack>
   )
-}
+})
