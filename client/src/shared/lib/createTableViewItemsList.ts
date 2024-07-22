@@ -26,6 +26,7 @@ export const createTableViewItemsList = (
     const monthNumber = date.getMonth()
 
     const weekDayName = formatRu(date, 'EEEE')
+    const shortWeekDayName = formatRu(date, 'EEEEE')
     const weekDayNumber = date.getDay()
     const dayOfTheMonth = date.getDate()
 
@@ -42,6 +43,7 @@ export const createTableViewItemsList = (
       weekDayName,
       weekDayNumber,
       dayOfTheMonth,
+      shortWeekDayName,
       ...options,
     }
   })

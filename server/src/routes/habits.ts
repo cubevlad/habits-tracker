@@ -4,7 +4,7 @@ import prismaClient from '../database/db'
 
 const router = Router()
 
-router.get('/', async (req: Request<{ start_date: string; end_date: string }>, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
   const token = tokenService.getUserData(req)
 
   if (!token) {
@@ -24,22 +24,17 @@ router.get('/', async (req: Request<{ start_date: string; end_date: string }>, r
   }
 
   const { id } = user
-  const { start_date, end_date } = req.query
 
-  const notes = await prismaClient.note.findMany({
+  const habits = await prismaClient.habit.findMany({
     where: {
       userId: id,
-      createdAt: {
-        gte: new Date(start_date as string),
-        lt: new Date(end_date as string),
-      },
     },
     orderBy: {
-      createdAt: 'desc',
+      startedAt: 'desc',
     },
   })
 
-  res.send(notes)
+  res.send(habits)
 })
 
 router.post('/create', async (req: Request, res: Response) => {
@@ -61,22 +56,21 @@ router.post('/create', async (req: Request, res: Response) => {
     return
   }
 
-  const { id } = user
-  const { content, createdAt: bodyDate } = req.body
-  const createdAt = bodyDate ? new Date(bodyDate) : new Date(Date.now())
+  const { goal, name } = req.params
 
-  const note = await prismaClient.note.create({
+  const habit = await prismaClient.habit.create({
     data: {
-      content: content,
-      userId: id,
-      createdAt,
+      goal: Number(goal),
+      name,
+      userId: user.id,
+      startedAt: new Date(Date.now()),
     },
   })
 
-  res.send(note)
+  res.send(habit)
 })
 
-router.put('/update', async (req: Request, res: Response) => {
+router.put('/update', async (req: Request<{ goal: string; name: string }>, res: Response) => {
   const token = tokenService.getUserData(req)
 
   if (!token) {
@@ -95,21 +89,21 @@ router.put('/update', async (req: Request, res: Response) => {
     return
   }
 
-  const { id } = user
-  const { content, id: noteId } = req.body
+  const { id: userId } = user
+  const { id, goal, name } = req.body
 
-  const note = await prismaClient.note.update({
+  const habit = await prismaClient.habit.update({
     where: {
-      id: noteId,
-      userId: id,
+      id,
+      userId
     },
     data: {
-      content: content,
-      modifiedAt: new Date(Date.now()),
+      goal: Number(goal),
+      name
     },
   })
 
-  res.send(note)
+  res.send(habit)
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {
@@ -133,19 +127,19 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
   const { id } = req.params
 
-  const note = await prismaClient.note.findFirst({
+  const habit = await prismaClient.habit.findFirst({
     where: {
       userId: user.id,
     },
   })
 
-  if (!note) {
+  if (!habit) {
     res.status(404)
-    res.send({ message: 'No notes found' })
+    res.send({ message: 'No habits found' })
     return
   }
 
-  await prismaClient.note.delete({
+  await prismaClient.habit.delete({
     where: {
       id,
     },

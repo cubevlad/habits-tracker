@@ -18,7 +18,7 @@ type NoteFormProps = {
 }
 
 export const NoteForm = observer(({ note, onClose, createdAt: createdAtProp }: NoteFormProps) => {
-  const createdAt = String(createdAtProp)
+  const createdAt = createdAtProp ? String(createdAtProp) : undefined
 
   const {
     notesStore: { createNote, updateNote },

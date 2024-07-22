@@ -14,6 +14,7 @@ type Item = {
   weekDayName: string
   monthNumber: number
   monthName: string
+  shortWeekDayName: string
   year: number
   notes?: Note[]
 }

@@ -16,7 +16,7 @@ class RootStore {
   constructor(transportLayer: Api) {
     this.transportLayer = transportLayer
     this.notesStore = new NotesStore(transportLayer)
-    this.habitStore = new HabitsStore()
+    this.habitStore = new HabitsStore(transportLayer)
     this.tableViewStore = new TableViewStore()
   }
 }

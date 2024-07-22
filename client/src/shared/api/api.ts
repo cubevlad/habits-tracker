@@ -2,8 +2,7 @@ import type { AxiosInstance, CreateAxiosDefaults } from 'axios'
 import axios from 'axios'
 
 import { tokenInterceptor } from './lib'
-import { NotesService } from './model/Notes'
-import { UserService } from './model/User'
+import { HabitsService, NotesService, UserService } from './model'
 
 class Api {
   static commonHeaders = {
@@ -17,6 +16,8 @@ class Api {
   public userService: UserService
 
   public notesService: NotesService
+
+  public habitsService: HabitsService
 
   constructor(config: CreateAxiosDefaults) {
     this.instance = axios.create({
@@ -55,6 +56,7 @@ class Api {
 
     this.userService = new UserService(this.instance)
     this.notesService = new NotesService(this.instance)
+    this.habitsService = new HabitsService(this.instance)
   }
 }
 
