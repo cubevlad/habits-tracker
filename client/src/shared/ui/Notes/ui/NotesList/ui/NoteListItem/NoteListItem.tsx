@@ -26,7 +26,9 @@ export const NoteListItem: React.FC<NoteListItemProps> = observer(({ note }) => 
     notesStore: { deleteNote },
   } = useStore()
 
-  const { Form: NoteForm, handleOpen } = useNotesForm(note)
+  const { Form: NoteForm, handleOpen } = useNotesForm({
+    note,
+  })
 
   const handleDeleteNote = async () => {
     await deleteNote(note.id, note.createdAt)

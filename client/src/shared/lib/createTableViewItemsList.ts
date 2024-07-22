@@ -20,6 +20,7 @@ export const createTableViewItemsList = (
     date.setDate(date.getDate() + diff)
 
     const fullDate = format(date, 'd MMMM yyyy', { locale: ruLocale })
+    const standardDateFormat = new Date(date)
 
     const monthName = formatRu(date, 'MMMM')
     const monthNumber = date.getMonth()
@@ -32,6 +33,7 @@ export const createTableViewItemsList = (
 
     return {
       id: fullDate,
+      standardDateFormat,
       fullDate,
       index: curIndex,
       monthName,

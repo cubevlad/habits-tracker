@@ -14,9 +14,12 @@ import { DEFAULT_NOTE_FORM_VALUES, noteSchema } from './model'
 type NoteFormProps = {
   note?: Note
   onClose?: () => void
+  createdAt?: Date | string
 }
 
-export const NoteForm = observer(({ note, onClose }: NoteFormProps) => {
+export const NoteForm = observer(({ note, onClose, createdAt: createdAtProp }: NoteFormProps) => {
+  const createdAt = String(createdAtProp)
+
   const {
     notesStore: { createNote, updateNote },
     tableViewStore: { currentViewDate },
@@ -29,26 +32,29 @@ export const NoteForm = observer(({ note, onClose }: NoteFormProps) => {
   })
 
   const {
-    reset,
     register,
     formState: { isValid },
     handleSubmit,
+    reset,
   } = methods
 
   const handleSubmitForm = async ({ content }: { content: string }) => {
     // eslint-disable-next-line no-unused-expressions
     note
       ? await updateNote({ content, id: note.id })
-      : await createNote({ content, createdAt: currentViewDate })
+      : await createNote({ content, createdAt: createdAt ?? currentViewDate })
 
     onClose?.()
   }
 
   useEffect(() => {
     if (note) {
-      reset({ content: note.content })
+      reset({
+        ...DEFAULT_NOTE_FORM_VALUES,
+        content: note.content,
+      })
     }
-  }, [note, reset])
+  }, [note, createdAt, reset])
 
   return (
     <FormProvider {...methods}>

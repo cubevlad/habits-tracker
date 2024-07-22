@@ -8,6 +8,7 @@ type Item = {
   id: string
   index: number
   fullDate: Date | string
+  standardDateFormat: Date
   dayOfTheMonth: number
   weekDayNumber: number
   weekDayName: string

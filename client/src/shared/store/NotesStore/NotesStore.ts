@@ -58,6 +58,13 @@ export class NotesStore {
 
     runInAction(() => {
       this.notes = [noteFromServer, ...this.notes]
+
+      const dateNotes = this.flatNotesList[date]
+      if (!dateNotes) {
+        this.flatNotesList[date] = [noteFromServer]
+        return
+      }
+
       this.flatNotesList[date] = [noteFromServer, ...this.flatNotesList[date]]
     })
   }
@@ -72,8 +79,6 @@ export class NotesStore {
         item.id === note.id ? noteFromServer : item
       )
     })
-
-    console.log(this.flatNotesList)
   }
 
   deleteNote = async (id: string, createdAt: Date | string) => {

@@ -7,23 +7,30 @@ import type { Note } from '@shared/types'
 
 import { NoteForm } from '../ui/NoteForm'
 
-export const useNotesForm = (note?: Note) => {
+type UseNotesFormProps = {
+  note?: Note
+  canAddNewNote?: boolean
+}
+
+export const useNotesForm = ({ note, canAddNewNote }: UseNotesFormProps = {}) => {
   const { Modal, handleOpen, handleClose } = useModal()
 
+  const isAddFormVisible = canAddNewNote ?? !note
+
   const Form = useCallback(
-    () => (
+    ({ createdAt }: { createdAt?: Date | string }) => (
       <>
-        {!note ? (
+        {isAddFormVisible ? (
           <Button variant='contained' onClick={handleOpen}>
             Добавить заметку
           </Button>
         ) : null}
         <Modal>
-          <NoteForm note={note} onClose={handleClose} />
+          <NoteForm createdAt={createdAt} note={note} onClose={handleClose} />
         </Modal>
       </>
     ),
-    [Modal, handleClose, handleOpen, note]
+    [Modal, handleClose, handleOpen, isAddFormVisible, note]
   )
 
   return useMemo(() => ({ Form, handleOpen }), [Form, handleOpen])

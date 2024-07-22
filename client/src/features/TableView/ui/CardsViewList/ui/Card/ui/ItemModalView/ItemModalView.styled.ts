@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 export const StyledItemModalViewWrapper = styled(Box)`
   min-width: 400px;
+  min-height: 400px;
   position: absolute;
   top: 50%;
   left: 50%;
