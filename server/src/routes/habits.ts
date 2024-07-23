@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { tokenService } from '../services/token-service'
 import prismaClient from '../database/db'
+import { createHabitRecords } from '../utils/createHabitRecords'
 
 const router = Router()
 
@@ -30,7 +31,7 @@ router.get('/', async (req: Request, res: Response) => {
       userId: id,
     },
     orderBy: {
-      startedAt: 'desc',
+      startedAt: 'asc',
     },
   })
 
@@ -56,16 +57,25 @@ router.post('/create', async (req: Request, res: Response) => {
     return
   }
 
-  const { goal, name } = req.params
+  const { goal, name } = req.body
+  const startedAt =new Date(Date.now())
+  const records = createHabitRecords(startedAt)
 
   const habit = await prismaClient.habit.create({
     data: {
       goal: Number(goal),
       name,
       userId: user.id,
-      startedAt: new Date(Date.now()),
+      startedAt,
+      records: {
+        createMany: {
+          data: records,
+        }
+      },
     },
   })
+
+
 
   res.send(habit)
 })

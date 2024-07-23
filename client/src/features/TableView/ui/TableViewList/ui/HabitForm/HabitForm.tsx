@@ -1,30 +1,40 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, TextareaAutosize, TextField } from '@mui/material'
-import { isValid } from 'date-fns'
+import { Button, TextField } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { useForm, FormProvider } from 'react-hook-form'
 
+import { useStore } from '@shared/context'
 import { useModal } from '@shared/lib'
-import { noteSchema } from '@shared/ui/Notes/ui/NoteForm/model'
+import type { Habit } from '@shared/types'
 import { StyledFormWrapper, StyledTitle, StyledForm, StyledSubmitButton } from '@styles'
 
-import { DEFAULT_HABIT_FORM_VALUES, type HabitFormType } from './model'
+import { DEFAULT_HABIT_FORM_VALUES, type HabitFormType, habitSchema } from './model'
 
 export const HabitForm: React.FC = observer(() => {
-  const { Modal, handleOpen } = useModal()
+  const {
+    habitStore: { createHabit },
+  } = useStore()
+
+  const { Modal, handleOpen, handleClose } = useModal()
 
   const methods = useForm<HabitFormType>({
     defaultValues: { ...DEFAULT_HABIT_FORM_VALUES },
     mode: 'onBlur',
-    resolver: yupResolver(noteSchema),
+    resolver: yupResolver(habitSchema),
   })
 
   const {
-    register,
-    formState: { isValid },
-    handleSubmit,
     reset,
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
   } = methods
+
+  const handleSubmitForm = async (habit: Pick<Habit, 'goal' | 'name'>) => {
+    await createHabit(habit)
+    handleClose()
+    reset(DEFAULT_HABIT_FORM_VALUES)
+  }
 
   return (
     <>
@@ -45,11 +55,11 @@ export const HabitForm: React.FC = observer(() => {
                 variant='outlined'
               />
               <TextField
-                {...register('password')}
+                {...register('goal')}
                 fullWidth
-                error={!isValid && !!errors.password?.message}
-                helperText={isValid ? '' : errors.password?.message}
-                label='Пароль'
+                error={!isValid && !!errors.goal?.message}
+                helperText={isValid ? '' : errors.goal?.message}
+                label='Цель'
                 variant='outlined'
               />
               <StyledSubmitButton
@@ -59,7 +69,7 @@ export const HabitForm: React.FC = observer(() => {
                 variant='outlined'
                 onClick={handleSubmit(handleSubmitForm)}
               >
-                Войти
+                Создать
               </StyledSubmitButton>
             </StyledForm>
           </StyledFormWrapper>

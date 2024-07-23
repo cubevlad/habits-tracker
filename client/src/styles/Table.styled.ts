@@ -13,17 +13,15 @@ export const StyledTable = styled.table`
   width: calc(50% + 700px);
   min-width: 100%;
   table-layout: fixed;
-  text-align: center;
-  border: ${border};
 `
 
 export const StyledTableHeader = styled.thead`
-  table-header-group;
+  display: table-header-group;
   vertical-align: middle;
   unicode-bidi: isolate;
   border-color: inherit;
   border: ${border};
-  `
+`
 
 export const StyledTableBody = styled.tbody`
   display: table-row-group;
