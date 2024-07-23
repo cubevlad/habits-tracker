@@ -1,4 +1,4 @@
-const formatDate = (date: Date) => date.toISOString().split('T')[0]
+export const formatDate = (date: Date) => date.toISOString().split('T')[0]
 
 const getDaysInCurrentMonth = (startedAt: Date) => {
   const date = new Date(startedAt);
@@ -22,7 +22,7 @@ export const createHabitRecords = (startedAt: Date) => {
     date.setDate(i + 1);
 
     records.push({
-      date: formatDate(date),
+      date,
       done: false,
     });
   }

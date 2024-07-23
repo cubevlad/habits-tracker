@@ -26,12 +26,18 @@ router.get('/', async (req: Request<{ start_date: string; end_date: string }>, r
   const { id } = user
   const { start_date, end_date } = req.query
 
+  const gte = new Date(start_date as string)
+  gte.setHours(0, 0, 0, 0)
+
+  const lte = new Date(end_date as string)
+  lte.setHours(23, 59, 59, 999)
+
   const notes = await prismaClient.note.findMany({
     where: {
       userId: id,
       createdAt: {
-        gte: new Date(start_date as string),
-        lt: new Date(end_date as string),
+        gte,
+        lte,
       },
     },
     orderBy: {

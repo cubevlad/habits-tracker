@@ -7,6 +7,12 @@ export const StyledTableViewListWrapper = styled(Stack)``
 
 export const StyledTableWrapper = styled.div`
   overflow: auto hidden;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
 `
 
 export const StyledTable = styled.table`

@@ -9,8 +9,16 @@ export class HabitsController {
     this.instance = apiInstance
   }
 
-  public getHabits = async () => {
-    const { data } = await this.instance.get<Habit[]>('habits')
+  public getHabits = async ({
+    start_date,
+    end_date,
+  }: {
+    start_date: Date | string
+    end_date: Date | string
+  }) => {
+    const { data } = await this.instance.get<Habit[]>('habits', {
+      params: { start_date, end_date },
+    })
 
     return data
   }

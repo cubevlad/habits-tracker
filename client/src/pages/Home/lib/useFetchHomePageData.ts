@@ -14,6 +14,6 @@ export const useFetchHomePageData = () => {
   }, [currentViewDate, fetchNotes])
 
   useEffect(() => {
-    fetchHabits()
-  }, [fetchHabits])
+    fetchHabits(currentViewDate)
+  }, [currentViewDate, fetchHabits])
 }

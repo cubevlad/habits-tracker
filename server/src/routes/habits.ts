@@ -25,10 +25,34 @@ router.get('/', async (req: Request, res: Response) => {
   }
 
   const { id } = user
+  const { start_date, end_date } = req.query
+
+  if (!start_date || !end_date) {
+    res.status(400)
+    res.send({ message: 'Missing start_date or end_date in query params' })
+    return
+  }
+
+  const gte = new Date(start_date as string)
+  gte.setHours(0, 0, 0, 0)
+
+  const lte = new Date(end_date as string)
+  lte.setHours(23, 59, 59, 999)
 
   const habits = await prismaClient.habit.findMany({
     where: {
       userId: id,
+      records: {
+        some: {
+          date: {
+            gte,
+            lte
+          }
+        }
+      }
+    },
+    include: {
+      records: true,
     },
     orderBy: {
       startedAt: 'asc',
@@ -74,8 +98,6 @@ router.post('/create', async (req: Request, res: Response) => {
       },
     },
   })
-
-
 
   res.send(habit)
 })

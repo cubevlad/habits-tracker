@@ -8,7 +8,9 @@ type HabitTableCellItemProps = {
 }
 
 export const HabitTableCellItem: React.FC<HabitTableCellItemProps> = observer(({ habit }) => {
-  const {} = useStore()
+  const {
+    habitStore: { updateHabit },
+  } = useStore()
 
   return <div />
 })

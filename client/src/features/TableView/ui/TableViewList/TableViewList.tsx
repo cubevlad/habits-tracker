@@ -40,35 +40,29 @@ export const TableViewList: React.FC<TableViewListProps> = observer(({ list }) =
           </colgroup>
           <StyledTableHeader>
             <StyledTableRow>
-              <StyledTableTh>
-                <div>Привычки</div>
-              </StyledTableTh>
+              <StyledTableTh rowSpan={2}>Привычки</StyledTableTh>
               {list.map(({ id, shortWeekDayName }) => (
                 <StyledTableTh key={id}>{shortWeekDayName}</StyledTableTh>
               ))}
-              <StyledTableTh>
-                <div> Цель </div>
-              </StyledTableTh>
-              <StyledTableTh>
-                <div> Выполнено </div>
-              </StyledTableTh>
+              <StyledTableTh rowSpan={2}>Цель</StyledTableTh>
+              <StyledTableTh rowSpan={2}>Выполнено</StyledTableTh>
             </StyledTableRow>
             <StyledTableRow>
-              <StyledTableTh />
               {list.map(({ id, dayOfTheMonth }) => (
                 <StyledTableTh key={id}>{dayOfTheMonth}</StyledTableTh>
               ))}
-              <StyledTableTh />
-              <StyledTableTh />
             </StyledTableRow>
           </StyledTableHeader>
           <StyledTableBody>
             {!habits.length ? (
-              <StyledTableRow>
-                <StyledTableTd colSpan={list.length}>
-                  <EmptyTableBody />
-                </StyledTableTd>
-              </StyledTableRow>
+              <>
+                <StyledTableRow />
+                <StyledTableRow>
+                  <StyledTableTd colSpan={list.length + 3}>
+                    <EmptyTableBody />
+                  </StyledTableTd>
+                </StyledTableRow>
+              </>
             ) : (
               <HabitsList daysLength={list.length} habits={habits} />
             )}

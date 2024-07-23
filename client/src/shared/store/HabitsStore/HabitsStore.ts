@@ -1,7 +1,8 @@
+import { format } from 'date-fns'
 import { makeAutoObservable, runInAction } from 'mobx'
 
 import type { Api } from '@shared/api'
-import { createFlatList } from '@shared/lib'
+import { createFlatList, getFirstAndLastDayOfMonth } from '@shared/lib'
 import type { Habit } from '@shared/types'
 
 export class HabitsStore {
@@ -17,8 +18,16 @@ export class HabitsStore {
     makeAutoObservable(this)
   }
 
-  fetchHabits = async () => {
-    const habits = await this.transportLayer.habitsService.habits.getHabits()
+  fetchHabits = async (date: Date) => {
+    const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth(date)
+
+    const formattedFirst = format(firstDayOfMonth, 'yyyy-MM-dd')
+    const formattedLast = format(lastDayOfMonth, 'yyyy-MM-dd')
+
+    const habits = await this.transportLayer.habitsService.habits.getHabits({
+      start_date: formattedFirst,
+      end_date: formattedLast,
+    })
 
     const flatHabitsList = createFlatList({
       list: habits,
