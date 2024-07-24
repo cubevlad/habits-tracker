@@ -8,7 +8,7 @@ import { StyledTableTd } from '@styles'
 import { StyledCellItemIcon } from './HabitTableCellItem.styled'
 
 type HabitTableCellItemProps = {
-  record: HabitRecord
+  record: HabitRecord | (HabitRecord & { disabled: boolean })
   completeRecordColor: string
 }
 
@@ -19,6 +19,10 @@ export const HabitTableCellItem: React.FC<HabitTableCellItemProps> = observer(
     } = useStore()
 
     const handleClick = () => {
+      if ('disabled' in record && record.disabled) {
+        return
+      }
+
       updateHabitRecord({ ...record, done: !record.done })
     }
 
