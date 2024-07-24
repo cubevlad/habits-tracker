@@ -45,12 +45,13 @@ model Habit {
   user        User     @relation(fields: [userId], references: [id])
   userId      String
   records     Record[]
+  achieved    Int      @default(0)
 }
 
 model Record {
   id      String   @unique @default(uuid())
   done    Boolean  @default(false)
-  habit   Habit    @relation(fields: [habitId], references: [id])
+  habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
   habitId String
   date    DateTime
 }

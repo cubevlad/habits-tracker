@@ -8,7 +8,9 @@ import {
 export const EmptyTableBody = () => (
   <StyledEmptyTableBodyWrapper>
     <StyledEmptyTableBodyMessageWrapper>
-      <Typography component='p'>Create your first habit by clicking on + New Habit</Typography>
+      <Typography component='p'>
+        Чтобы добавить привычку, нажмите на кнопку «Дабвить привычку»
+      </Typography>
     </StyledEmptyTableBodyMessageWrapper>
   </StyledEmptyTableBodyWrapper>
 )

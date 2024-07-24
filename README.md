@@ -11,20 +11,45 @@
 
 - [x] add database
 - [x] add auth
-- [ ] add api
+- [x] add api
+
+- [ ] add route / user with admin role
+
+refactoring:
+- [ ] routes -> move to services/controllers
+- [ ] make code mode readable
 
 ### frontend
 
 - [x] dark / light theme
-- [ ] home page
+- [x] home page
   - [x] view change controller
     - [x] table view - calendar component
-    - [ ] row view with month/week selection
-    - [ ] cell note taking with preview
-  - [ ] CRUD with habits
-  - [ ] adding new habit button with modal
-  - [ ] info about habit
+    - [x] row view
+    - [x] cell note taking with preview
+  - [x] CRUD actions
+
+  - [ ] table view
+    - [ ] create default records array if no records from backend (make them disabled)
+    - [ ] add shadows corners for table (::before and ::after)
+    - [ ] fix update habit within mobx model
+    - [ ] fix height of table cells
+
+  - [ ] cards view
+    - [ ] render habits for each card
+    - [ ] colorize card depends on habits done status and goal
+    - [ ] add form to create new habit
+
 - [x] login page
 - [x] registration page
-- [ ] analytics page
-- [ ] settings page
+
+- [ ] new theme palette
+- [ ] change colors to theme palette
+- [ ] responsive design
+
+- [ ] logout button
+- [ ] refresh token if expired
+- [ ] weather widget
+
+- [ ] analytics page ?
+- [ ] settings page ?

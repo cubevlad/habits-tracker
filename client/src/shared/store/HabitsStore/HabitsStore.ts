@@ -3,7 +3,7 @@ import { makeAutoObservable, runInAction } from 'mobx'
 
 import type { Api } from '@shared/api'
 import { createFlatList, getFirstAndLastDayOfMonth } from '@shared/lib'
-import type { Habit } from '@shared/types'
+import type { Habit, HabitRecord } from '@shared/types'
 
 export class HabitsStore {
   private readonly transportLayer: Api
@@ -55,6 +55,22 @@ export class HabitsStore {
     runInAction(() => {
       this.habits = this.habits.map((item) => (item.id === habit.id ? habitFromServer : item))
       this.flatHabitsList[habitFromServer.id] = habitFromServer
+    })
+  }
+
+  updateHabitRecord = async (record: HabitRecord) => {
+    const recordFromServer =
+      await this.transportLayer.habitsService.habits.updateHabitRecord(record)
+
+    runInAction(() => {
+      const records = this.habits.find((item) => item.id === record.habitId)?.records ?? []
+      const habitsRecord = this.flatHabitsList[record.habitId]?.records ?? []
+
+      const recordIndex = records.findIndex((item) => item.id === record.id)
+      if (recordIndex !== -1) {
+        records[recordIndex] = recordFromServer
+        habitsRecord[recordIndex] = recordFromServer
+      }
     })
   }
 

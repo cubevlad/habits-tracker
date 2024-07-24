@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express'
 import { tokenService } from '../services/token-service'
 import prismaClient from '../database/db'
 import { createHabitRecords } from '../utils/createHabitRecords'
+import { getFirstAndLastDayOfMonth } from '../utils/getFirstAndLastDayOfMonth'
 
 const router = Router()
 
@@ -42,17 +43,19 @@ router.get('/', async (req: Request, res: Response) => {
   const habits = await prismaClient.habit.findMany({
     where: {
       userId: id,
-      records: {
-        some: {
-          date: {
-            gte,
-            lte
-          }
-        }
-      }
     },
     include: {
-      records: true,
+      records: {
+        where: {
+          date: {
+            gte,
+            lte,
+          },
+        },
+        orderBy: {
+          date: 'asc',
+        },
+      },
     },
     orderBy: {
       startedAt: 'asc',
@@ -82,8 +85,16 @@ router.post('/create', async (req: Request, res: Response) => {
   }
 
   const { goal, name } = req.body
-  const startedAt =new Date(Date.now())
+  const startedAt = new Date(Date.now())
   const records = createHabitRecords(startedAt)
+
+  const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth(startedAt)
+
+  const gte = new Date(firstDayOfMonth)
+  gte.setHours(0, 0, 0, 0)
+
+  const lte = new Date(lastDayOfMonth)
+  lte.setHours(23, 59, 59, 999)
 
   const habit = await prismaClient.habit.create({
     data: {
@@ -94,7 +105,17 @@ router.post('/create', async (req: Request, res: Response) => {
       records: {
         createMany: {
           data: records,
-        }
+        },
+      },
+    },
+    include: {
+      records: {
+        where: {
+          date: {
+            gte,
+            lte,
+          },
+        },
       },
     },
   })
@@ -102,7 +123,7 @@ router.post('/create', async (req: Request, res: Response) => {
   res.send(habit)
 })
 
-router.put('/update', async (req: Request<{ goal: string; name: string }>, res: Response) => {
+router.put('/update/:id', async (req: Request, res: Response) => {
   const token = tokenService.getUserData(req)
 
   if (!token) {
@@ -122,20 +143,81 @@ router.put('/update', async (req: Request<{ goal: string; name: string }>, res: 
   }
 
   const { id: userId } = user
-  const { id, goal, name } = req.body
+  const { id } = req.params
+  const { goal, name } = req.body
 
   const habit = await prismaClient.habit.update({
     where: {
-      id,
-      userId
+      id: id as string,
+      userId,
     },
     data: {
       goal: Number(goal),
-      name
+      name,
     },
   })
 
   res.send(habit)
+})
+
+router.put('/update/:id/record', async (req: Request, res: Response) => {
+  const token = tokenService.getUserData(req)
+
+  if (!token) {
+    res.status(401)
+    res.send({ message: 'Unauthorized' })
+    return
+  }
+
+  const user = await prismaClient.user.findFirst({
+    where: { name: token.name },
+  })
+
+  if (!user) {
+    res.status(404)
+    res.send({ message: 'No users found' })
+    return
+  }
+
+  const { id: habitId } = req.params
+  const { id, done } = req.body
+
+  const habit = await prismaClient.habit.findFirst({
+    where: {
+      id: habitId,
+      userId: user.id,
+    },
+  })
+
+  if (!habit) {
+    res.status(404)
+    res.send({ message: 'No habits found' })
+    return
+  }
+
+  const record = await prismaClient.record.findFirst({
+    where: {
+      habitId: habit.id,
+      id,
+    },
+  })
+
+  if (!record) {
+    res.status(404)
+    res.send({ message: 'No records found' })
+    return
+  }
+
+  const updatedRecord = await prismaClient.record.update({
+    where: {
+      id,
+    },
+    data: {
+      done,
+    },
+  })
+
+  res.send(updatedRecord)
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {

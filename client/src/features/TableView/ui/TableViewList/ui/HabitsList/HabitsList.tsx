@@ -1,39 +1,35 @@
-import { useMemo } from 'react'
-
 import { observer } from 'mobx-react-lite'
 
+import { useThemeCtx } from '@shared/context'
 import type { Habit } from '@shared/types'
 import { StyledTableRow, StyledTableTd } from '@styles'
 
-import { HabitTableCellItem } from './ui'
+import { getColorForHabitsRecordsWithDoneStatus } from './lib'
+import { HabitTableCellItem, HabitTableCellItemWithActions } from './ui'
 
 type HabitsListProps = {
   habits: Habit[]
-  daysLength: number
 }
 
-export const HabitsList: React.FC<HabitsListProps> = observer(({ habits, daysLength }) => {
-  const arrayFromZeroToDaysLength = useMemo(
-    () => Array.from({ length: daysLength }, (_, i) => i),
-    [daysLength]
-  )
+export const HabitsList: React.FC<HabitsListProps> = observer(({ habits }) => {
+  const { mode } = useThemeCtx()
 
   return (
     <>
-      {habits.map((habit, index) => (
-        <StyledTableRow key={habit.id} data-row-key={index}>
-          <StyledTableTd>
-            <div>{habit.name}</div>
-          </StyledTableTd>
-          {arrayFromZeroToDaysLength.map((day) => (
-            <StyledTableTd key={day}>
-              <HabitTableCellItem habit={habit} />
-            </StyledTableTd>
-          ))}
-          <StyledTableTd>{habit.goal}</StyledTableTd>
-          <StyledTableTd>0</StyledTableTd>
-        </StyledTableRow>
-      ))}
+      {habits.map((habit, index) => {
+        const color = getColorForHabitsRecordsWithDoneStatus(mode, index)
+
+        return (
+          <StyledTableRow key={habit.id} data-row-key={index}>
+            <HabitTableCellItemWithActions habit={habit} />
+            {habit.records.map((record) => (
+              <HabitTableCellItem key={record.id} completeRecordColor={color} record={record} />
+            ))}
+            <StyledTableTd>{habit.goal}</StyledTableTd>
+            <StyledTableTd>0</StyledTableTd>
+          </StyledTableRow>
+        )
+      })}
     </>
   )
 })

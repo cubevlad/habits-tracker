@@ -1,12 +1,10 @@
-import { Stack } from '@mui/material'
 import styled from 'styled-components'
 
 const border = '1px solid #e0e0e0'
 
-export const StyledTableViewListWrapper = styled(Stack)``
-
 export const StyledTableWrapper = styled.div`
   overflow: auto hidden;
+  margin-bottom: 24px;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -43,7 +41,7 @@ export const StyledTableRow = styled.tr`
   border-color: inherit;
 `
 
-export const StyledTableTd = styled.td`
+export const StyledTableTd = styled.td<{ $color?: string }>`
   text-align: center;
   padding: 8px;
   border: ${border};
@@ -52,11 +50,10 @@ export const StyledTableTd = styled.td`
   unicode-bidi: isolate;
   overflow-wrap: break-word;
   position: relative;
+  background-color: ${({ $color }) => $color ?? 'unset'};
 `
 
 export const StyledTableTh = styled.th`
-  padding: 0;
-  border: none;
   text-align: center;
   padding: 14px 4px !important;
   border: ${border};

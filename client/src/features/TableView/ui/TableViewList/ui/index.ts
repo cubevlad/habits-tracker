@@ -1,3 +1,6 @@
 export * from './EmptyTableBody'
 export * from './HabitForm'
 export * from './HabitsList'
+export * from './Colgroup'
+export * from './TableHeader'
+export * from './TableBody'

@@ -1,31 +1,38 @@
 export const formatDate = (date: Date) => date.toISOString().split('T')[0]
 
-const getDaysInCurrentMonth = (startedAt: Date) => {
-  const date = new Date(startedAt);
-  const year = date.getFullYear();
-  const month = date.getMonth();
+export const getDaysInCurrentMonth = (startedAt: Date) => {
+  const date = new Date(startedAt)
+  const year = date.getFullYear()
+  const month = date.getMonth()
 
-  const firstDayNextMonth = new Date(year, month + 1, 1);
+  const firstDayNextMonth = new Date(year, month + 1, 1)
   // @ts-expect-error
-  const lastDayCurrentMonth = new Date(firstDayNextMonth - 1);
+  const lastDayCurrentMonth = new Date(firstDayNextMonth - 1)
 
-  return lastDayCurrentMonth.getDate();
+  return lastDayCurrentMonth.getDate()
 }
 
 export const createHabitRecords = (startedAt: Date) => {
-  const daysInCurrentMonth = getDaysInCurrentMonth(startedAt);
+  const currentYear = new Date(startedAt).getFullYear()
+  const tempDate = new Date(startedAt)
 
-  const records = [];
+  const records = []
 
-  for (let i = 0; i < daysInCurrentMonth; i++) {
-    const date = new Date(startedAt);
-    date.setDate(i + 1);
+  while (tempDate.getFullYear() === currentYear) {
+    const daysInCurrentMonth = getDaysInCurrentMonth(tempDate)
 
-    records.push({
-      date,
-      done: false,
-    });
+    for (let i = 0; i < daysInCurrentMonth; i++) {
+      const date = new Date(tempDate)
+      date.setDate(i + 1)
+
+      records.push({
+        date,
+        done: false,
+      })
+    }
+
+    tempDate.setMonth(tempDate.getMonth() + 1)
   }
 
-  return records;
+  return records
 }
