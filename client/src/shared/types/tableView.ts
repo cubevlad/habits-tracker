@@ -16,6 +16,7 @@ type Item = {
   monthName: string
   shortWeekDayName: string
   year: number
+  isCurrent: boolean
   notes?: Note[]
 }
 

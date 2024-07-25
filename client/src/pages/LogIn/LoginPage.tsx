@@ -15,7 +15,7 @@ import { DEFAULT_LOGIN_FORM_VALUES, type LoginForm } from './lib'
 import { loginSchema } from './model'
 
 export const LoginPage: React.FC = () => {
-  const { setIsAuth } = useAuthCtx()
+  const { handleLogin } = useAuthCtx()
   const methods = useForm({
     defaultValues: { ...DEFAULT_LOGIN_FORM_VALUES },
     mode: 'onBlur',
@@ -35,7 +35,7 @@ export const LoginPage: React.FC = () => {
       try {
         const resp = await api.userService.user.singIn({ ...user })
         localStorage.setItem('local-token', resp.accessToken)
-        setIsAuth(true)
+        handleLogin()
       } catch (error) {
         if (error instanceof AxiosError) {
           setError('name', { message: error.response?.data.message })
@@ -43,12 +43,26 @@ export const LoginPage: React.FC = () => {
         }
       }
     },
-    [setError, setIsAuth]
+    [setError, handleLogin]
   )
 
   useEffect(() => {
     reset(DEFAULT_LOGIN_FORM_VALUES)
   }, [reset])
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && isValid) {
+        handleSubmitForm(methods.getValues())
+      }
+    }
+
+    window.addEventListener('keypress', handleKeyPress)
+
+    return () => {
+      window.removeEventListener('keypress', handleKeyPress)
+    }
+  }, [handleSubmitForm, isValid, methods])
 
   return (
     <FormProvider {...methods}>

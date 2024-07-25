@@ -16,6 +16,7 @@
 - [ ] add route / user with admin role
 
 refactoring:
+
 - [ ] routes -> move to services/controllers
 - [ ] make code mode readable
 
@@ -33,6 +34,7 @@ refactoring:
     - [x] create default records array if no records from backend (make them disabled)
     - [x] fix update habit within mobx model
     - [x] fix height of table cells
+    - [x] highlight today's col
 
   - [ ] cards view
     - [ ] render habits for each card
@@ -46,7 +48,8 @@ refactoring:
 - [ ] change colors to theme palette
 - [ ] responsive design
 
-- [ ] logout button
+- [x] logout button
+- [ ] add account info
 - [ ] refresh token if expired
 - [ ] weather widget
 

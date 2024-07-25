@@ -8,7 +8,7 @@ import { CardsViewList, TableViewList } from './ui'
 
 export const TableView: React.FC = observer(() => {
   const {
-    tableViewStore: { currentViewDate },
+    tableViewStore: { currentViewDate, initialViewDate },
   } = useStore()
 
   const { mode } = useViewModeCtx()
@@ -16,13 +16,15 @@ export const TableView: React.FC = observer(() => {
 
   const copy = new Date(currentViewDate)
 
-  const daysOfMonthList = createTableViewItemsList(currentViewDate)
-  const daysOfNextMonthList = createTableViewItemsList(
-    new Date(copy.setMonth(copy.getMonth() + 1)),
-    {
-      disabled: true,
-    }
-  )
+  const daysOfMonthList = createTableViewItemsList({
+    initialViewDate,
+    currentViewDate,
+  })
+  const daysOfNextMonthList = createTableViewItemsList({
+    initialViewDate,
+    currentViewDate: new Date(copy.setMonth(copy.getMonth() + 1)),
+    options: { disabled: true },
+  })
 
   const tableItemsToRender = [
     ...daysOfMonthList,

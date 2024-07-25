@@ -15,7 +15,7 @@ import { StyledForm, StyledFormWrapper, StyledSubmitButton, StyledTitle } from '
 import { signUpSchema, type SingUpForm } from './model'
 
 export const SignUpPage: React.FC = () => {
-  const { setIsAuth } = useAuthCtx()
+  const { handleLogout: setIsAuth } = useAuthCtx()
   const methods = useForm({
     defaultValues: { ...DEFAULT_LOGIN_FORM_VALUES },
     mode: 'onBlur',

@@ -14,7 +14,7 @@ type CardProps = {
 
 export const Card: React.FC<CardProps> = observer(({ item }) => {
   const {
-    tableViewStore: { initialViewData },
+    tableViewStore: { initialViewDate: initialViewData },
     notesStore: { getNotesById },
   } = useStore()
 

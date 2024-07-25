@@ -5,7 +5,7 @@ import { formatRu } from '@shared/lib'
 export class TableViewStore {
   currentViewDate = new Date()
 
-  initialViewData = new Date()
+  initialViewDate = new Date()
 
   constructor() {
     makeObservable(this, {

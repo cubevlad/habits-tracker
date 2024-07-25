@@ -24,7 +24,7 @@ export const TableBody = observer(<T,>({ list, habits }: TableBodyProps<T>) => {
           </StyledTableRow>
         </>
       ) : (
-        <HabitsList daysLength={list.length} habits={habits} />
+        <HabitsList habits={habits} />
       )}
     </StyledTableBody>
   )

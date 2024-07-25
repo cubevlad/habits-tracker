@@ -32,9 +32,9 @@ const Routes = () => {
           </ReactRoutes>
         ) : (
           <ReactRoutes>
-            <Route element={<Navigate replace to='/login' />} path='*' />
             <Route element={<LoginPage />} path={APP_LINKS.LOGIN} />
             <Route element={<SignUpPage />} path={APP_LINKS.SIGNUP} />
+            <Route element={<Navigate replace to='/login' />} path='*' />
           </ReactRoutes>
         )}
       </Suspense>

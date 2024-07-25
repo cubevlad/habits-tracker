@@ -13,5 +13,6 @@ export type Habit = {
   startedAt: Date | string
   archivedAt: string | null
   accountId: string
+  achieved: number
   records: HabitRecord[]
 }

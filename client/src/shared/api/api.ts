@@ -1,10 +1,12 @@
+import EventEmitter from 'events'
+
 import type { AxiosInstance, CreateAxiosDefaults } from 'axios'
 import axios from 'axios'
 
 import { tokenInterceptor } from './lib'
 import { HabitsService, NotesService, UserService } from './model'
 
-class Api {
+class Api extends EventEmitter {
   static commonHeaders = {
     'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE',
     'Access-Control-Allow-Origin': '*',
@@ -20,6 +22,8 @@ class Api {
   public habitsService: HabitsService
 
   constructor(config: CreateAxiosDefaults) {
+    super()
+
     this.instance = axios.create({
       baseURL: config.baseURL ?? '/api/v1/',
       headers: config.headers ?? Api.commonHeaders,
@@ -50,6 +54,7 @@ class Api {
           }
         }
 
+        this.emit('apiError', error)
         return Promise.reject(error)
       }
     )

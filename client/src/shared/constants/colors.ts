@@ -1,5 +1,7 @@
 export const COLORS_LENGTH = 20
 
+export const ACHIEVED_COLOR = '#0de0a1'
+
 export const LIGHT_COLORS: Record<number, string> = {
   0: '#fdf2d0', // Light yellow
   1: '#bfdfce', // Light green

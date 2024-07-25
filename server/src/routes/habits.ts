@@ -61,11 +61,16 @@ router.get('/', async (req: Request, res: Response) => {
       },
     },
     orderBy: {
-      startedAt: 'desc',
+      startedAt: 'asc',
     },
   })
 
-  res.send(habits)
+  const mappedHabits = habits.map((habit) => ({
+    ...habit,
+    achieved: habit.records.reduce((acc, record) => (record.done ? acc + 1 : acc), 0),
+  }))
+
+  res.send(mappedHabits)
 })
 
 router.post('/create', async (req: Request, res: Response) => {

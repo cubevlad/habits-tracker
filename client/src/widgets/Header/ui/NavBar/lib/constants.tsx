@@ -1,4 +1,4 @@
-import { Analytics, Home, Settings } from '@mui/icons-material'
+import { Analytics, Home, Logout, Settings } from '@mui/icons-material'
 import type { Theme } from '@mui/material'
 import styled from 'styled-components'
 
@@ -40,30 +40,48 @@ const getColor = (theme: Theme, state: number) => {
   }
 }
 
+// WIP
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledHomeIcon = styled(Home)<{ $state?: number }>`
   color: ${({ theme, $state }) => getColor(theme, $state ?? 0)};
 `
+
+const StyledLogoutIcon = styled(Logout)<{ $state?: number }>`
+  color: ${({ theme, $state }) => getColor(theme, $state ?? 0)};
+`
+
+// WIP
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledSettingsIcon = styled(Settings)<{ $state?: number }>`
   color: ${({ theme, $state }) => getColor(theme, $state ?? 0)};
 `
+// WIP
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledAnalyticsIcon = styled(Analytics)<{ $state?: number }>`
   color: ${({ theme, $state }) => getColor(theme, $state ?? 0)};
 `
 
 export const NAV_TABS: NavTabsType[] = [
+  // {
+  //   to: '/',
+  //   label: 'HOME',
+  //   getIcon: (buttonState) => <StyledHomeIcon $state={buttonState} />,
+  // },
   {
-    to: '/',
-    label: 'HOME',
-    getIcon: (buttonState) => <StyledHomeIcon $state={buttonState} />,
+    to: '/logout',
+    label: 'LOGOUT',
+    getIcon: (buttonState) => <StyledLogoutIcon $state={buttonState} />,
   },
-  {
-    to: '/settings',
-    label: 'SETTINGS',
-    getIcon: (buttonState) => <StyledSettingsIcon $state={buttonState} />,
-  },
-  {
-    to: '/analytics',
-    label: 'ANALYTICS',
-    getIcon: (buttonState) => <StyledAnalyticsIcon $state={buttonState} />,
-  },
+  // WIP
+
+  // {
+  //   to: '/settings',
+  //   label: 'SETTINGS',
+  //   getIcon: (buttonState) => <StyledSettingsIcon $state={buttonState} />,
+  // },
+  // {
+  //   to: '/analytics',
+  //   label: 'ANALYTICS',
+  //   getIcon: (buttonState) => <StyledAnalyticsIcon $state={buttonState} />,
+  // },
 ]

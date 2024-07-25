@@ -32,7 +32,7 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
     const { Form, handleOpen: handleFormOpen } = useHabitForm({ habit })
     const { Modal, handleOpen: handleModalOpen, handleClose } = useModal()
 
-    const row = (element: HTMLDivElement | null) => {
+    const handleRowRef = (element: HTMLDivElement | null) => {
       if (!element) return
 
       rowHeight.current = element.offsetHeight
@@ -47,7 +47,7 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
               <Delete fontSize='inherit' onClick={handleModalOpen} />
             </StyledActionsWrapper>
           ) : (
-            <div ref={row}>{habit.name}</div>
+            <div ref={handleRowRef}>{habit.name}</div>
           )}
         </StyledTableTd>
         <Form />

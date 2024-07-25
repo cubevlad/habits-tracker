@@ -72,6 +72,21 @@ export class HabitsStore {
         habitsRecord[recordIndex] = recordFromServer
       }
     })
+
+    this.updateHabitAchieved({ habitId: record.habitId, value: record.done })
+  }
+
+  updateHabitAchieved = ({ habitId, value }: { habitId: string; value: boolean }) => {
+    const habitFromArray = this.habits.find((item) => item.id === habitId)
+    const habitFromMap = this.flatHabitsList[habitId]
+
+    runInAction(() => {
+      if (habitFromArray) {
+        habitFromArray.achieved = value ? habitFromArray.achieved + 1 : habitFromArray.achieved - 1
+      }
+
+      habitFromMap.achieved = value ? habitFromMap.achieved + 1 : habitFromMap.achieved - 1
+    })
   }
 
   deleteHabit = async (id: string) => {

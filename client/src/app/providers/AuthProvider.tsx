@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 import { AuthContextProvider } from '@shared/context'
 
@@ -26,5 +26,23 @@ export const AuthProvider = ({ children }: { children?: React.ReactNode }) => {
     return () => clearInterval(interval)
   }, [])
 
-  return <AuthContextProvider value={{ isAuth, setIsAuth }}>{children}</AuthContextProvider>
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem('local-token')
+    setIsAuth(false)
+  }, [])
+
+  const handleLogin = useCallback(() => {
+    setIsAuth(true)
+  }, [])
+
+  const contextValue = useMemo(
+    () => ({
+      isAuth,
+      handleLogout,
+      handleLogin,
+    }),
+    [isAuth, handleLogout, handleLogin]
+  )
+
+  return <AuthContextProvider value={contextValue}>{children}</AuthContextProvider>
 }

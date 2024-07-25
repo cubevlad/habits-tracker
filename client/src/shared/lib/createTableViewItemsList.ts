@@ -5,10 +5,17 @@ import type { ItemOptions, TableViewItem } from '@shared/types'
 
 import { formatRu } from './date/formatRu'
 
-export const createTableViewItemsList = (
-  currentViewDate: Date,
+type CreateTableViewItemsListOptions = {
+  initialViewDate: Date
+  currentViewDate: Date
   options?: ItemOptions
-): TableViewItem[] => {
+}
+
+export const createTableViewItemsList = ({
+  initialViewDate,
+  currentViewDate,
+  options,
+}: CreateTableViewItemsListOptions): TableViewItem[] => {
   const daysCount = getDaysInMonth(currentViewDate)
 
   const list: TableViewItem[] = Array.from({ length: daysCount }, (_, index) => {
@@ -32,6 +39,10 @@ export const createTableViewItemsList = (
 
     const year = Number(format(date, 'yyyy'))
 
+    const isDaysAreEqual = initialViewDate.getDate() === dayOfTheMonth
+    const isMonthsAreEqual = initialViewDate.getMonth() === monthNumber
+    const isCurrent = isDaysAreEqual && isMonthsAreEqual
+
     return {
       id: fullDate,
       standardDateFormat,
@@ -44,6 +55,7 @@ export const createTableViewItemsList = (
       weekDayNumber,
       dayOfTheMonth,
       shortWeekDayName,
+      isCurrent,
       ...options,
     }
   })

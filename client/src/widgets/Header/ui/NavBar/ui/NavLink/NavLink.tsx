@@ -1,6 +1,6 @@
 import { NavLink as RouteNavigationLink } from 'react-router-dom'
 
-import { useThemeCtx } from '@shared/context'
+import { useAuthCtx, useThemeCtx } from '@shared/context'
 
 import { useLinkState } from './lib'
 
@@ -14,6 +14,7 @@ type NavLinkProps = {
 
 export const NavLink: React.FC<NavLinkProps> = ({ to, getIcon, isDisabled }) => {
   const { mode } = useThemeCtx()
+  const { handleLogout } = useAuthCtx()
 
   const linkState = useLinkState({
     isDisabled: isDisabled ?? false,
@@ -23,5 +24,19 @@ export const NavLink: React.FC<NavLinkProps> = ({ to, getIcon, isDisabled }) => 
 
   const icon = getIcon(linkState)
 
-  return <RouteNavigationLink to={to}>{icon}</RouteNavigationLink>
+  const handleClick = () => {
+    if (isDisabled) {
+      return
+    }
+
+    if (to === '/logout') {
+      handleLogout()
+    }
+  }
+
+  return (
+    <RouteNavigationLink to={to} onClick={handleClick}>
+      {icon}
+    </RouteNavigationLink>
+  )
 }
