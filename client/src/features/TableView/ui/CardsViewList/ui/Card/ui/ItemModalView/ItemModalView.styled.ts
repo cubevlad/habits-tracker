@@ -10,6 +10,8 @@ export const StyledItemModalViewWrapper = styled(Box)`
   transform: translate(-50%, -50%);
   background-color: ${({ theme }) => theme.palette.background.paper};
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
 `
 
 export const StyledFormButton = styled(Button)`

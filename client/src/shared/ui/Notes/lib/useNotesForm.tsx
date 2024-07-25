@@ -42,5 +42,5 @@ export const useNotesForm = ({ note, canAddNewNote, customButton }: UseNotesForm
     [FormButton, Modal, handleClose, isAddFormVisible, note]
   )
 
-  return useMemo(() => ({ Form, handleOpen }), [Form, handleOpen])
+  return useMemo(() => ({ Form, handleOpen, handleClose }), [Form, handleClose, handleOpen])
 }

@@ -22,7 +22,7 @@ export const Card: React.FC<CardProps> = observer(({ item }) => {
   const notesLength = (getNotesById(item.id) ?? []).length
   const habitsLength = habits.length
 
-  const { Modal, handleOpen: handleModalOpen } = useModal()
+  const { Modal, handleOpen: handleModalOpen, handleClose: handleModalClose } = useModal()
 
   const handleItemClick = () => !item.disabled && handleModalOpen()
 
@@ -52,7 +52,7 @@ export const Card: React.FC<CardProps> = observer(({ item }) => {
         )}
       </StyledCardWrapper>
       <Modal>
-        <ItemModalView item={item} />
+        <ItemModalView item={item} onClose={handleModalClose} />
       </Modal>
     </>
   )

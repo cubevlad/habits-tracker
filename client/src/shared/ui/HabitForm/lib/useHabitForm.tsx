@@ -42,5 +42,5 @@ export const useHabitForm = ({ habit, canAddNewHabit, customButton }: UseHabitFo
     [isAddFormVisible, FormButton, Modal, habit, handleClose]
   )
 
-  return useMemo(() => ({ Form, handleOpen }), [Form, handleOpen])
+  return useMemo(() => ({ Form, handleOpen, handleClose }), [Form, handleOpen, handleClose])
 }

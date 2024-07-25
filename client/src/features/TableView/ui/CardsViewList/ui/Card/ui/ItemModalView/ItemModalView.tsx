@@ -1,3 +1,4 @@
+import { Close } from '@mui/icons-material'
 import { Box, Stack, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
@@ -12,9 +13,10 @@ import { HabitsCardList } from './ui/HabitsCardList'
 
 type ItemModalViewProps = {
   item: TableViewItem
+  onClose?: () => void
 }
 
-export const ItemModalView: React.FC<ItemModalViewProps> = observer(({ item }) => {
+export const ItemModalView: React.FC<ItemModalViewProps> = observer(({ item, onClose }) => {
   const {
     notesStore: { getNotesById },
     habitStore: { habits },
@@ -34,6 +36,9 @@ export const ItemModalView: React.FC<ItemModalViewProps> = observer(({ item }) =
 
   return (
     <StyledItemModalViewWrapper>
+      <Box sx={{ alignSelf: 'flex-end' }} onClick={onClose}>
+        <Close />
+      </Box>
       <Stack spacing={2}>
         <Stack direction='row' justifyContent='space-between'>
           <Typography variant='h6'>{item.id}</Typography>

@@ -27,8 +27,8 @@ export const HabitsCardListItem: React.FC<HabitsCardListItemProps> = observer(({
   }
 
   const handleEdit = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation()
     handleFormOpen()
+    e.stopPropagation()
   }
 
   const handleDelete = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

@@ -5,7 +5,10 @@ import { DialogContent, Modal as MuiModal } from '@mui/material'
 export const useModal = () => {
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = useCallback(() => setIsOpen(true), [])
-  const handleClose = useCallback(() => setIsOpen(false), [])
+  const handleClose = useCallback((e?: React.BaseSyntheticEvent) => {
+    e?.stopPropagation()
+    setIsOpen(false)
+  }, [])
 
   const Modal = useCallback(
     ({ children, additional }: { children: React.ReactNode; additional?: any }) => {
