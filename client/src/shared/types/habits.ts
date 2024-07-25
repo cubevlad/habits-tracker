@@ -10,8 +10,8 @@ export type Habit = {
   name: string
   description: string | null
   goal: number
-  started_at: string
-  archived_at: string | null
+  startedAt: Date | string
+  archivedAt: string | null
   accountId: string
   records: HabitRecord[]
 }

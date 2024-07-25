@@ -43,6 +43,9 @@ router.get('/', async (req: Request, res: Response) => {
   const habits = await prismaClient.habit.findMany({
     where: {
       userId: id,
+      startedAt: {
+        lte,
+      },
     },
     include: {
       records: {
@@ -58,7 +61,7 @@ router.get('/', async (req: Request, res: Response) => {
       },
     },
     orderBy: {
-      startedAt: 'asc',
+      startedAt: 'desc',
     },
   })
 
@@ -84,8 +87,8 @@ router.post('/create', async (req: Request, res: Response) => {
     return
   }
 
-  const { goal, name } = req.body
-  const startedAt = new Date(Date.now())
+  const { goal, name, startedAt: bodyStartedAt } = req.body
+  const startedAt = bodyStartedAt ? new Date(bodyStartedAt) : new Date(Date.now())
   const records = createHabitRecords(startedAt)
 
   const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth(startedAt)
@@ -146,14 +149,33 @@ router.put('/update/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   const { goal, name } = req.body
 
+  const startedAt = new Date(Date.now())
+  const { firstDayOfMonth, lastDayOfMonth } = getFirstAndLastDayOfMonth(startedAt)
+
+  const gte = new Date(firstDayOfMonth)
+  gte.setHours(0, 0, 0, 0)
+
+  const lte = new Date(lastDayOfMonth)
+  lte.setHours(23, 59, 59, 999)
+
   const habit = await prismaClient.habit.update({
     where: {
-      id: id as string,
+      id: id,
       userId,
     },
     data: {
       goal: Number(goal),
       name,
+    },
+    include: {
+      records: {
+        where: {
+          date: {
+            gte,
+            lte,
+          },
+        },
+      },
     },
   })
 

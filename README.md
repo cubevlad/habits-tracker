@@ -29,11 +29,10 @@ refactoring:
     - [x] cell note taking with preview
   - [x] CRUD actions
 
-  - [ ] table view
-    - [ ] create default records array if no records from backend (make them disabled)
-    - [ ] add shadows corners for table (::before and ::after)
-    - [ ] fix update habit within mobx model
-    - [ ] fix height of table cells
+  - [x] table view
+    - [x] create default records array if no records from backend (make them disabled)
+    - [x] fix update habit within mobx model
+    - [x] fix height of table cells
 
   - [ ] cards view
     - [ ] render habits for each card

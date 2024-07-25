@@ -19,6 +19,7 @@ type HabitFormProps = {
 export const HabitForm: React.FC<HabitFormProps> = observer(({ habit: habitProp, onClose }) => {
   const {
     habitStore: { createHabit, updateHabit },
+    tableViewStore: { currentViewDate },
   } = useStore()
 
   const methods = useForm<HabitFormType>({
@@ -36,7 +37,9 @@ export const HabitForm: React.FC<HabitFormProps> = observer(({ habit: habitProp,
 
   const handleSubmitForm = async (habit: Pick<Habit, 'goal' | 'name'>) => {
     // eslint-disable-next-line no-unused-expressions
-    habitProp ? await updateHabit({ ...habit, id: habitProp.id }) : await createHabit(habit)
+    habitProp
+      ? await updateHabit({ ...habit, id: habitProp.id })
+      : await createHabit({ ...habit, startedAt: currentViewDate })
 
     onClose?.()
     reset(DEFAULT_HABIT_FORM_VALUES)

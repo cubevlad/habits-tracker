@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Delete, Edit } from '@mui/icons-material'
 import { observer } from 'mobx-react-lite'
@@ -19,6 +19,7 @@ type HabitTableCellItemWithActionsProps = {
 export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActionsProps> = observer(
   ({ habit }) => {
     const [hovered, setHovered] = useState(false)
+    const rowHeight = useRef(0)
 
     const handleMouseEnter = () => {
       setHovered(true)
@@ -31,16 +32,22 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
     const { Form, handleOpen: handleFormOpen } = useHabitForm({ habit })
     const { Modal, handleOpen: handleModalOpen, handleClose } = useModal()
 
+    const row = (element: HTMLDivElement | null) => {
+      if (!element) return
+
+      rowHeight.current = element.offsetHeight
+    }
+
     return (
       <>
         <StyledTableTd onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           {hovered ? (
-            <StyledActionsWrapper direction='row' spacing={2}>
+            <StyledActionsWrapper $height={rowHeight.current} direction='row' spacing={2}>
               <Edit fontSize='inherit' onClick={handleFormOpen} />
               <Delete fontSize='inherit' onClick={handleModalOpen} />
             </StyledActionsWrapper>
           ) : (
-            habit.name
+            <div ref={row}>{habit.name}</div>
           )}
         </StyledTableTd>
         <Form />

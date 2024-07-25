@@ -9,7 +9,7 @@ export const EmptyTableBody = () => (
   <StyledEmptyTableBodyWrapper>
     <StyledEmptyTableBodyMessageWrapper>
       <Typography component='p'>
-        Чтобы добавить привычку, нажмите на кнопку «Дабвить привычку»
+        Чтобы добавить привычку, нажмите на кнопку «Добавить привычку»
       </Typography>
     </StyledEmptyTableBodyMessageWrapper>
   </StyledEmptyTableBodyWrapper>
