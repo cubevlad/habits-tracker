@@ -27,6 +27,7 @@ export const createTableViewItemsList = ({
     date.setDate(date.getDate() + diff)
 
     const fullDate = format(date, 'd MMMM yyyy', { locale: ruLocale })
+    const habitRecordId = format(date, 'yyyy-MM-dd')
     const standardDateFormat = new Date(date)
 
     const monthName = formatRu(date, 'MMMM')
@@ -47,6 +48,7 @@ export const createTableViewItemsList = ({
       id: fullDate,
       standardDateFormat,
       fullDate,
+      habitRecordId,
       index: curIndex,
       monthName,
       year,

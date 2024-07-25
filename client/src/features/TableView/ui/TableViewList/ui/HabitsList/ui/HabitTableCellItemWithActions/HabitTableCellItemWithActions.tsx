@@ -5,12 +5,11 @@ import { observer } from 'mobx-react-lite'
 
 import { useModal } from '@shared/lib'
 import type { Habit } from '@shared/types'
+import { useHabitForm } from '@shared/ui/HabitForm/lib'
 import { StyledTableTd } from '@styles'
 
 import { StyledActionsWrapper } from './HabitTableCellItemWithActions.styled'
 import { DeleteModalContent } from './ui'
-
-import { useHabitForm } from '../../../HabitForm/lib'
 
 type HabitTableCellItemWithActionsProps = {
   habit: Habit

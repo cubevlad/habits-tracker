@@ -3,43 +3,43 @@ import { cloneElement, useCallback, useMemo } from 'react'
 import { Button } from '@mui/material'
 
 import { useModal } from '@shared/lib'
-import type { Note } from '@shared/types'
+import type { Habit } from '@shared/types'
 
-import { NoteForm } from '../ui/NoteForm'
+import { HabitForm } from '../HabitForm'
 
-type UseNotesFormProps = {
-  note?: Note
-  canAddNewNote?: boolean
+type UseHabitFormProps = {
+  habit?: Habit
+  canAddNewHabit?: boolean
   customButton?: React.ReactElement
 }
 
-export const useNotesForm = ({ note, canAddNewNote, customButton }: UseNotesFormProps = {}) => {
+export const useHabitForm = ({ habit, canAddNewHabit, customButton }: UseHabitFormProps = {}) => {
   const { Modal, handleOpen, handleClose } = useModal()
 
-  const isAddFormVisible = canAddNewNote ?? !note
+  const isAddFormVisible = canAddNewHabit ?? !habit
 
   const FormButton = useMemo(
     () =>
       customButton ? (
         cloneElement(customButton, { onClick: handleOpen })
       ) : (
-        <Button variant='contained' onClick={handleOpen}>
-          Добавить заметку
+        <Button variant='outlined' onClick={handleOpen}>
+          + Добавить привычку
         </Button>
       ),
     [customButton, handleOpen]
   )
 
   const Form = useCallback(
-    ({ createdAt }: { createdAt?: Date | string }) => (
+    () => (
       <>
         {isAddFormVisible ? FormButton : null}
         <Modal>
-          <NoteForm createdAt={createdAt} note={note} onClose={handleClose} />
+          <HabitForm habit={habit} onClose={handleClose} />
         </Modal>
       </>
     ),
-    [FormButton, Modal, handleClose, isAddFormVisible, note]
+    [isAddFormVisible, FormButton, Modal, habit, handleClose]
   )
 
   return useMemo(() => ({ Form, handleOpen }), [Form, handleOpen])

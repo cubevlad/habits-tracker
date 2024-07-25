@@ -1,5 +1,5 @@
 export * from './EmptyTableBody'
-export * from './HabitForm'
+export * from '../../../../../shared/ui/HabitForm'
 export * from './HabitsList'
 export * from './Colgroup'
 export * from './TableHeader'

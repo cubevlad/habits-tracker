@@ -9,5 +9,5 @@ export const StyledEmptyTableBodyWrapper = styled.div`
 
 export const StyledEmptyTableBodyMessageWrapper = styled.div`
   text-align: center;
-  margin: 3rem 0px;
+  margin: 3rem 0;
 `

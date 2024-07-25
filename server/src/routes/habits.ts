@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { tokenService } from '../services/token-service'
 import prismaClient from '../database/db'
-import { createHabitRecords } from '../utils/createHabitRecords'
+import { createHabitRecords, formatDate } from '../utils/createHabitRecords'
 import { getFirstAndLastDayOfMonth } from '../utils/getFirstAndLastDayOfMonth'
 
 const router = Router()
@@ -244,7 +244,7 @@ router.put('/update/:id/record', async (req: Request, res: Response) => {
     },
   })
 
-  res.send(updatedRecord)
+  res.send({ ...updatedRecord, date: formatDate(updatedRecord.date) })
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {

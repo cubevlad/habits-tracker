@@ -18,6 +18,7 @@
 refactoring:
 
 - [ ] routes -> move to services/controllers
+- [ ] add error handling
 - [ ] make code mode readable
 
 ### frontend
@@ -37,9 +38,10 @@ refactoring:
     - [x] highlight today's col
 
   - [ ] cards view
-    - [ ] render habits for each card
-    - [ ] colorize card depends on habits done status and goal
-    - [ ] add form to create new habit
+    - [x] render habits for each card
+    - [x] colorize card depends on habits done status and goal
+    - [x] add form to create new habit
+    - [ ] make modal with scrollable containers with habits and notes
 
 - [x] login page
 - [x] registration page

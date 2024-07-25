@@ -17,6 +17,7 @@ type Item = {
   shortWeekDayName: string
   year: number
   isCurrent: boolean
+  habitRecordId: string
   notes?: Note[]
 }
 

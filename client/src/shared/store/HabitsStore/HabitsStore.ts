@@ -2,15 +2,18 @@ import { format } from 'date-fns'
 import { makeAutoObservable, runInAction } from 'mobx'
 
 import type { Api } from '@shared/api'
-import { createFlatList, getFirstAndLastDayOfMonth } from '@shared/lib'
+import { getFirstAndLastDayOfMonth } from '@shared/lib'
 import type { Habit, HabitRecord } from '@shared/types'
+
+import { createFlatHabitsWithFlatRecordsList } from './lib'
 
 export class HabitsStore {
   private readonly transportLayer: Api
 
   habits: Habit[] = []
 
-  flatHabitsList: Record<string, Habit> = {}
+  /** Flat list of habits with flat list of records by date */
+  flatHabitsWithFlatRecordsList: Record<string, Record<string, HabitRecord>> = {}
 
   constructor(api: Api) {
     this.transportLayer = api
@@ -29,14 +32,11 @@ export class HabitsStore {
       end_date: formattedLast,
     })
 
-    const flatHabitsList = createFlatList({
-      list: habits,
-      newListValuesType: 'obj',
-    })
+    const flatHabitsWithFlatRecordsList = createFlatHabitsWithFlatRecordsList(habits)
 
     runInAction(() => {
       this.habits = habits
-      this.flatHabitsList = flatHabitsList
+      this.flatHabitsWithFlatRecordsList = flatHabitsWithFlatRecordsList
     })
   }
 
@@ -45,7 +45,6 @@ export class HabitsStore {
 
     runInAction(() => {
       this.habits.push(habitFromServer)
-      this.flatHabitsList[habitFromServer.id] = habitFromServer
     })
   }
 
@@ -54,7 +53,6 @@ export class HabitsStore {
 
     runInAction(() => {
       this.habits = this.habits.map((item) => (item.id === habit.id ? habitFromServer : item))
-      this.flatHabitsList[habitFromServer.id] = habitFromServer
     })
   }
 
@@ -64,12 +62,12 @@ export class HabitsStore {
 
     runInAction(() => {
       const records = this.habits.find((item) => item.id === record.habitId)?.records ?? []
-      const habitsRecord = this.flatHabitsList[record.habitId]?.records ?? []
+      const habitsRecord = this.flatHabitsWithFlatRecordsList[record.habitId] ?? {}
 
       const recordIndex = records.findIndex((item) => item.id === record.id)
       if (recordIndex !== -1) {
         records[recordIndex] = recordFromServer
-        habitsRecord[recordIndex] = recordFromServer
+        habitsRecord[record.date] = recordFromServer
       }
     })
 
@@ -78,14 +76,11 @@ export class HabitsStore {
 
   updateHabitAchieved = ({ habitId, value }: { habitId: string; value: boolean }) => {
     const habitFromArray = this.habits.find((item) => item.id === habitId)
-    const habitFromMap = this.flatHabitsList[habitId]
 
     runInAction(() => {
       if (habitFromArray) {
         habitFromArray.achieved = value ? habitFromArray.achieved + 1 : habitFromArray.achieved - 1
       }
-
-      habitFromMap.achieved = value ? habitFromMap.achieved + 1 : habitFromMap.achieved - 1
     })
   }
 
@@ -94,7 +89,7 @@ export class HabitsStore {
 
     runInAction(() => {
       this.habits = this.habits.filter((habit) => habit.id !== id)
-      delete this.flatHabitsList[id]
+      delete this.flatHabitsWithFlatRecordsList[id]
     })
   }
 }
