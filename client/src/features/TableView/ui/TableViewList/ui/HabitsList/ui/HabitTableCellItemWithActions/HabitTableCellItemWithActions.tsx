@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import { useModal } from '@shared/lib'
 import type { Habit } from '@shared/types'
-import { useHabitForm } from '@shared/ui/HabitForm/lib'
+import { useHabitForm } from '@shared/ui'
 import { StyledTableTd } from '@styles'
 
 import { StyledActionsWrapper } from './HabitTableCellItemWithActions.styled'
@@ -28,7 +28,7 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
       setHovered(false)
     }
 
-    const { Form, handleOpen: handleFormOpen } = useHabitForm({ habit })
+    const { Form, handleOpen: handleFormOpen } = useHabitForm()
     const { Modal, handleOpen: handleModalOpen, handleClose } = useModal()
 
     const handleRowRef = (element: HTMLDivElement | null) => {
@@ -37,12 +37,16 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
       rowHeight.current = element.offsetHeight
     }
 
+    const handleEdit = () => {
+      handleFormOpen(habit)
+    }
+
     return (
       <>
         <StyledTableTd onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           {hovered ? (
             <StyledActionsWrapper $height={rowHeight.current} direction='row' spacing={2}>
-              <Edit fontSize='inherit' onClick={handleFormOpen} />
+              <Edit fontSize='inherit' onClick={handleEdit} />
               <Delete fontSize='inherit' onClick={handleModalOpen} />
             </StyledActionsWrapper>
           ) : (

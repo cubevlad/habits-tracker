@@ -6,8 +6,6 @@ import { StyledTableWrapper, StyledTable } from '@styles'
 
 import { TableHeader, TableBody, Colgroup } from './ui'
 
-import { useHabitForm } from '../../../../shared/ui/HabitForm/lib'
-
 type TableViewListProps = {
   list: TableViewItem[]
 }
@@ -16,8 +14,6 @@ export const TableViewList: React.FC<TableViewListProps> = observer(({ list }) =
   const {
     habitStore: { habits },
   } = useStore()
-
-  const { Form } = useHabitForm({ canAddNewHabit: true })
 
   return (
     <div>
@@ -28,7 +24,6 @@ export const TableViewList: React.FC<TableViewListProps> = observer(({ list }) =
           <TableBody habits={habits} list={list} />
         </StyledTable>
       </StyledTableWrapper>
-      <Form />
     </div>
   )
 })

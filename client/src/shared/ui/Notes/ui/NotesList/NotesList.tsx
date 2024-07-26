@@ -10,15 +10,15 @@ type NotesListProps = {
 }
 
 export const NotesList: React.FC<NotesListProps> = observer(({ notes }) => {
-  if (!notes.length) {
-    return <Typography>Нет заметок</Typography>
-  }
-
   return (
-    <Stack spacing={2}>
-      {notes.map((note) => (
-        <NoteListItem key={note.id} note={note} />
-      ))}
+    <Stack spacing={1}>
+      <Typography variant='h6'>Заметки</Typography>
+      {!notes.length ? <Typography variant='body1'>Нет заметок</Typography> : null}
+      <Stack spacing={2}>
+        {notes.map((note) => (
+          <NoteListItem key={note.id} note={note} />
+        ))}
+      </Stack>
     </Stack>
   )
 })

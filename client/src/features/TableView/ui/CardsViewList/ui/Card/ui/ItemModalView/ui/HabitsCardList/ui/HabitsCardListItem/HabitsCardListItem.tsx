@@ -2,9 +2,8 @@ import { Delete, Edit } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
-import { useStore } from '@shared/context'
+import { useFormCtx, useStore } from '@shared/context'
 import type { Habit, TableViewItem } from '@shared/types'
-import { useHabitForm } from '@shared/ui/HabitForm/lib'
 
 import { StyledHabitsCardListItem, StyledIconsWrapper } from './HabitsCardListItem.styled'
 
@@ -18,7 +17,7 @@ export const HabitsCardListItem: React.FC<HabitsCardListItemProps> = observer(({
     habitStore: { flatHabitsWithFlatRecordsList, updateHabitRecord, deleteHabit },
   } = useStore()
 
-  const { Form, handleOpen: handleFormOpen } = useHabitForm({ habit })
+  const { handleHabitsFormOpen } = useFormCtx()
 
   const currentRecord = flatHabitsWithFlatRecordsList[habit.id][item.habitRecordId]
 
@@ -27,7 +26,7 @@ export const HabitsCardListItem: React.FC<HabitsCardListItemProps> = observer(({
   }
 
   const handleEdit = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    handleFormOpen()
+    handleHabitsFormOpen(habit)
     e.stopPropagation()
   }
 
@@ -47,7 +46,6 @@ export const HabitsCardListItem: React.FC<HabitsCardListItemProps> = observer(({
           <Delete />
         </Box>
       </StyledIconsWrapper>
-      <Form />
     </StyledHabitsCardListItem>
   )
 })

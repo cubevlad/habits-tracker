@@ -10,8 +10,7 @@ export const StyledFormWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 520px;
-  min-width: 320px;
+  width: 100%;
 `
 
 export const StyledTitle = styled(Typography)`

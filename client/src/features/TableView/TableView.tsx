@@ -4,6 +4,7 @@ import { useStore, useViewModeCtx } from '@shared/context'
 import { createTableViewItemsList, getCurrentViewMode } from '@shared/lib'
 
 import { MAX_ITEMS_LENGTH_AVAILABLE_TO_RENDER } from './lib'
+import { TableViewFormContextProvider } from './model'
 import { CardsViewList, TableViewList } from './ui'
 
 export const TableView: React.FC = observer(() => {
@@ -32,9 +33,9 @@ export const TableView: React.FC = observer(() => {
   ]
 
   return (
-    <>
+    <TableViewFormContextProvider>
       {isCardsView ? <CardsViewList list={tableItemsToRender} /> : null}
       {isTableView ? <TableViewList list={daysOfMonthList} /> : null}
-    </>
+    </TableViewFormContextProvider>
   )
 })
