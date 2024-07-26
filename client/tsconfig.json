@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -51,7 +51,8 @@
     "./.stylelintrc.js",
     "./.prettierrc",
     "./vite.config.ts",
-    "./lint-staged.config.mjs"
+    "./lint-staged.config.mjs",
+    "./vite.env.d.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

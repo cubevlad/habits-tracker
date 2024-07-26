@@ -13,7 +13,7 @@ export default defineConfig({
       environment: 'jsdom',
     },
   },
-  envDir: 'env',
+  envPrefix: ['VITE_', 'VIRTUAL_', 'REACT_APP_'],
   server: {
     port: 8000,
     proxy: {

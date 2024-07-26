@@ -6,6 +6,6 @@ export class UserService {
   public user: UserController
 
   constructor(private readonly apiInstance: AxiosInstance) {
-    this.user = new UserController(this.apiInstance)
+    this.user = new UserController(apiInstance)
   }
 }

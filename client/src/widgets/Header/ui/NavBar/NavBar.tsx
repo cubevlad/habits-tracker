@@ -1,3 +1,7 @@
+import { Stack } from '@mui/material'
+
+import { WeatherWidget } from '@features/WeatherWidget'
+
 import { NAV_TABS } from './lib'
 import { StyledNavBarWrapper, StyledNavLinkWrapper } from './NavBar.styled'
 import { NavLink, ThemeToggler, ViewModeToggler } from './ui'
@@ -10,8 +14,11 @@ export const NavBar: React.FC = () => {
           <NavLink key={label} getIcon={getIcon} to={to} />
         ))}
       </StyledNavLinkWrapper>
-      <ViewModeToggler />
-      <ThemeToggler />
+      <Stack alignItems='center' direction='row' spacing={1}>
+        <WeatherWidget />
+        <ViewModeToggler />
+        <ThemeToggler />
+      </Stack>
     </StyledNavBarWrapper>
   )
 }

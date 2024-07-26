@@ -32,7 +32,6 @@ refactoring:
 
 - [ ] add account info
 - [ ] refresh token if expired
-- [ ] weather widget
 
 - [ ] analytics page ?
 - [ ] settings page ?
