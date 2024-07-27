@@ -54,6 +54,8 @@ app.use(
 app.use((req, res, next) => authenticateToken(req, res, next))
 
 // starting the server
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`listening on port ${process.env.PORT || 3001}`)
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`listening on port ${process.env.PORT || 3000}`)
 })
+
+export default app
