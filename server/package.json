@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rm -rf ./dist && tsc",
     "start:dev": "nodemon",
-    "start:prod": "yarn build && node build/index.js"
+    "start:prod": "yarn build && node dist/index.js"
   },
   "engines": {
     "node": ">=20",
