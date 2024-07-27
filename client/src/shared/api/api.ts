@@ -6,6 +6,7 @@ import axios from 'axios'
 import { tokenInterceptor } from './lib'
 import { HabitsService, NotesService, UserService } from './model'
 
+const API_URL = import.meta.env.VITE_API_URL
 class Api extends EventEmitter {
   static commonHeaders = {
     'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE',
@@ -65,5 +66,5 @@ class Api extends EventEmitter {
   }
 }
 
-const api = new Api({})
+const api = new Api({ baseURL: API_URL })
 export { api, Api }
