@@ -19,12 +19,6 @@ refactoring:
 
 ### frontend
 
-- [ ] make modal with scrollable containers with habits and notes
-- [ ] make reusable modal dialogs with actions (close, cancel, save)
-
-- [x] login page
-- [x] registration page
-
 - [ ] new theme palette
 - [ ] change colors to theme palette
 - [ ] responsive design
