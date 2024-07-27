@@ -50,7 +50,8 @@
     "./.eslintrc.js",
     "./.stylelintrc.js",
     "./.prettierrc",
-    "./vite.config.ts",
+    "./vite.config.dev.ts",
+    "./vite.config.prod.ts",
     "./lint-staged.config.mjs",
     "./vite.env.d.ts"
   ],
