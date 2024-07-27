@@ -3,9 +3,9 @@ import { useRef, useState } from 'react'
 import { Delete, Edit } from '@mui/icons-material'
 import { observer } from 'mobx-react-lite'
 
+import { useFormCtx } from '@shared/context'
 import { useModal } from '@shared/lib'
 import type { Habit } from '@shared/types'
-import { useHabitForm } from '@shared/ui'
 import { StyledTableTd } from '@styles'
 
 import { StyledActionsWrapper } from './HabitTableCellItemWithActions.styled'
@@ -20,6 +20,8 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
     const [hovered, setHovered] = useState(false)
     const rowHeight = useRef(0)
 
+    const { Modal, handleOpen, handleClose } = useModal()
+
     const handleMouseEnter = () => {
       setHovered(true)
     }
@@ -28,8 +30,7 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
       setHovered(false)
     }
 
-    const { Form, handleOpen: handleFormOpen } = useHabitForm()
-    const { Modal, handleOpen: handleModalOpen, handleClose } = useModal()
+    const { handleHabitsFormOpen } = useFormCtx()
 
     const handleRowRef = (element: HTMLDivElement | null) => {
       if (!element) return
@@ -38,7 +39,7 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
     }
 
     const handleEdit = () => {
-      handleFormOpen(habit)
+      handleHabitsFormOpen(habit)
     }
 
     return (
@@ -47,13 +48,12 @@ export const HabitTableCellItemWithActions: React.FC<HabitTableCellItemWithActio
           {hovered ? (
             <StyledActionsWrapper $height={rowHeight.current} direction='row' spacing={2}>
               <Edit fontSize='inherit' onClick={handleEdit} />
-              <Delete fontSize='inherit' onClick={handleModalOpen} />
+              <Delete fontSize='inherit' onClick={handleOpen} />
             </StyledActionsWrapper>
           ) : (
             <div ref={handleRowRef}>{habit.name}</div>
           )}
         </StyledTableTd>
-        <Form />
         <Modal>
           <DeleteModalContent id={habit.id} onClose={handleClose} />
         </Modal>

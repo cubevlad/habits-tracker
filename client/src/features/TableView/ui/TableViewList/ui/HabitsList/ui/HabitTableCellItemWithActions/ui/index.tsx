@@ -6,7 +6,7 @@ import { StyledFormWrapper, StyledTitle, StyledSubmitButton } from '@styles'
 
 type DeleteModalContentProps = {
   id: string
-  onClose: () => void
+  onClose: (e: React.MouseEvent) => void
 }
 
 export const DeleteModalContent: React.FC<DeleteModalContentProps> = observer(({ onClose, id }) => {
@@ -14,19 +14,20 @@ export const DeleteModalContent: React.FC<DeleteModalContentProps> = observer(({
     habitStore: { deleteHabit },
   } = useStore()
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation()
     await deleteHabit(id)
-    onClose()
+    onClose(e)
   }
 
   return (
-    <StyledFormWrapper borderRadius={8} minWidth={520} p={4}>
+    <StyledFormWrapper borderRadius={8} maxWidth={520} p={4}>
       <StyledTitle variant='h4'>Удалить привычку?</StyledTitle>
       <Stack direction='row' spacing={2}>
-        <StyledSubmitButton color='error' variant='contained' onClick={onClose}>
+        <StyledSubmitButton variant='contained' onClick={onClose}>
           Нет
         </StyledSubmitButton>
-        <StyledSubmitButton variant='contained' onClick={handleDelete}>
+        <StyledSubmitButton variant='outlined' onClick={handleDelete}>
           Да
         </StyledSubmitButton>
       </Stack>

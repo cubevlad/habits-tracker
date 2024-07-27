@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close'
-import type { ButtonProps } from '@mui/material'
+import type { ButtonProps, PaperProps } from '@mui/material'
 import {
   Dialog as MuiDialog,
   Button,
@@ -10,6 +10,8 @@ import {
   Typography,
   Stack,
 } from '@mui/material'
+
+import { DEFAULT_DIALOG_PAPER_PROPS } from './lib'
 
 type DialogProps = {
   children?: React.ReactNode
@@ -29,6 +31,7 @@ type DialogProps = {
   }
   hideDialogActions?: boolean
   customDialogActions?: React.ReactNode
+  DialogPaperProps?: PaperProps
 }
 
 export const Dialog: React.FC<DialogProps> = ({
@@ -43,6 +46,7 @@ export const Dialog: React.FC<DialogProps> = ({
   hideDialogActions = false,
   customHeader,
   customDialogActions,
+  DialogPaperProps,
 }) => {
   const handleOk = () => {
     onOk?.()
@@ -60,17 +64,14 @@ export const Dialog: React.FC<DialogProps> = ({
   const cancelProps = cancelButtonProps?.props ?? {}
   const cancelText = cancelButtonProps?.text ?? 'Cancel'
 
+  const paperProps = DialogPaperProps ?? DEFAULT_DIALOG_PAPER_PROPS
+
   return (
     <MuiDialog
       aria-describedby='scroll-dialog-description'
       aria-labelledby='scroll-dialog-title'
       open={open}
-      PaperProps={{
-        sx: {
-          height: '100%',
-          width: '100%',
-        },
-      }}
+      PaperProps={paperProps}
       scroll='paper'
       onClose={onClose}
     >

@@ -17,6 +17,7 @@ export const StyledTable = styled.table`
   width: calc(50% + 700px);
   min-width: 100%;
   table-layout: fixed;
+  margin-bottom: 24px;
 `
 
 export const StyledTableHeader = styled.thead`
@@ -53,8 +54,27 @@ export const StyledTableTd = styled.td<{ $color?: string }>`
   background-color: ${({ $color }) => $color ?? 'unset'};
 `
 
-export const StyledTableTh = styled.th`
+export const StyledTableTh = styled.th<{ $isCurrent?: boolean }>`
   text-align: center;
   padding: 14px 4px !important;
   border: ${border};
+  background-color: ${({
+    $isCurrent,
+    theme: {
+      palette: { mode, text },
+    },
+  }) => {
+    switch (mode) {
+      case 'light': {
+        return $isCurrent ? text.disabled : 'unset'
+      }
+      case 'dark': {
+        return $isCurrent ? text.secondary : 'unset'
+      }
+
+      default: {
+        return 'unset'
+      }
+    }
+  }};
 `

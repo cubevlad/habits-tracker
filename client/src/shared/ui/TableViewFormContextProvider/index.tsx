@@ -3,9 +3,8 @@ import { useMemo } from 'react'
 import { Button } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
+import { BUTTON_STYLES } from '@shared/constants'
 import { FormContextProvider } from '@shared/context'
-
-import { BUTTON_STYLES } from './constants'
 
 import { useHabitForm } from '../HabitForm'
 import { useNotesForm } from '../Notes'

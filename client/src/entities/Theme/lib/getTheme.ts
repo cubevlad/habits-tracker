@@ -4,6 +4,6 @@ import { createPalette } from './createPalette'
 
 export const getTheme = (mode: PaletteMode = 'light') => {
   return createTheme({
-    palette: createPalette(mode, 'v2'),
+    palette: createPalette(mode, 'v1'),
   })
 }

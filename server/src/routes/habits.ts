@@ -67,6 +67,10 @@ router.get('/', async (req: Request, res: Response) => {
 
   const mappedHabits = habits.map((habit) => ({
     ...habit,
+    records: habit.records.map((record) => ({
+      ...record,
+      date: formatDate(record.date),
+    })),
     achieved: habit.records.reduce((acc, record) => (record.done ? acc + 1 : acc), 0),
   }))
 
@@ -128,7 +132,12 @@ router.post('/create', async (req: Request, res: Response) => {
     },
   })
 
-  res.send(habit)
+  const mappedHabit = {
+    ...habit,
+    records: habit.records.map((record) => ({ ...record, date: formatDate(record.date) })),
+  }
+
+  res.send(mappedHabit)
 })
 
 router.put('/update/:id', async (req: Request, res: Response) => {

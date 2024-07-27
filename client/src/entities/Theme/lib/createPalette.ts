@@ -69,53 +69,53 @@ export const createPaletteV2 = (mode: PaletteMode = 'light') => {
     common: {
       black,
       white,
+    },
 
+    primary: {
+      main: '#0de0a1', // Achieved color
+    },
+    secondary: {
+      main: '#506488', // Dark blue (alternative secondary color)
+    },
+    error: {
+      main: '#8c4b4b', // Dark red
+      light: '#f2b8b8', // Light red
+    },
+    warning: {
+      main: '#8c704a', // Dark yellow
+      light: '#ffd6a5', // Light apricot
+    },
+    info: {
+      main: '#4b5975', // Dark ice blue
+      light: '#d8d2e7', // Light purple
+    },
+    success: {
+      main: '#517a51', // Dark mint green
+      light: '#c3e8c2', // Light mint green
+    },
+    background: {
+      default: '#fdf2d0', // Light yellow
+      paper: '#ffffff', // White
+    },
+    text: {
+      primary: '#333333', // Dark text
+      secondary: '#666666', // Slightly lighter dark text
+    },
+    action: {
+      active: '#0de0a1', // Achieved color for active elements
+      hover: '#c3e8c2', // Light mint green for hover
+      selected: '#bfdfce', // Light green for selected
+      disabled: '#d8d2e7', // Light purple for disabled
+      disabledBackground: '#f9ddde', // Light salmon for disabled background
+    },
+    button: {
       primary: {
         main: '#0de0a1', // Achieved color
+        contrastText: '#ffffff', // White text
       },
       secondary: {
-        main: '#506488', // Dark blue (alternative secondary color)
-      },
-      error: {
-        main: '#8c4b4b', // Dark red
-        light: '#f2b8b8', // Light red
-      },
-      warning: {
-        main: '#8c704a', // Dark yellow
-        light: '#ffd6a5', // Light apricot
-      },
-      info: {
-        main: '#4b5975', // Dark ice blue
-        light: '#d8d2e7', // Light purple
-      },
-      success: {
-        main: '#517a51', // Dark mint green
-        light: '#c3e8c2', // Light mint green
-      },
-      background: {
-        default: '#fdf2d0', // Light yellow
-        paper: '#ffffff', // White
-      },
-      text: {
-        primary: '#333333', // Dark text
-        secondary: '#666666', // Slightly lighter dark text
-      },
-      action: {
-        active: '#0de0a1', // Achieved color for active elements
-        hover: '#c3e8c2', // Light mint green for hover
-        selected: '#bfdfce', // Light green for selected
-        disabled: '#d8d2e7', // Light purple for disabled
-        disabledBackground: '#f9ddde', // Light salmon for disabled background
-      },
-      button: {
-        primary: {
-          main: '#0de0a1', // Achieved color
-          contrastText: '#ffffff', // White text
-        },
-        secondary: {
-          main: '#506488', // Dark blue
-          contrastText: '#ffffff', // White text
-        },
+        main: '#506488', // Dark blue
+        contrastText: '#ffffff', // White text
       },
     },
   }

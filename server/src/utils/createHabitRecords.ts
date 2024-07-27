@@ -26,7 +26,7 @@ export const createHabitRecords = (startedAt: Date) => {
       date.setDate(i + 1)
 
       records.push({
-        date,
+        date: date,
         done: false,
       })
     }

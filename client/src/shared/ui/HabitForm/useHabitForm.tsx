@@ -11,21 +11,21 @@ type UseHabitFormProps = {
   customButton?: React.ReactElement
 }
 export const useHabitForm = ({ customButton }: UseHabitFormProps = {}) => {
-  const { value: isOpen, setTrue: handleOpen, setFalse: handleClose } = useBoolean()
+  const { value: isOpen, setTrue: openForm, setFalse: closeForm } = useBoolean()
 
   const refState = useRef<{ habit?: Habit }>({ habit: undefined })
 
   const handleFormClose = useCallback(() => {
     refState.current.habit = undefined
-    handleClose()
-  }, [handleClose])
+    closeForm()
+  }, [closeForm])
 
   const handleFormOpen = useCallback(
     (habit?: Habit) => {
       refState.current.habit = habit
-      handleOpen()
+      openForm()
     },
-    [handleOpen]
+    [openForm]
   )
 
   const FormButton = useCallback(
@@ -36,19 +36,27 @@ export const useHabitForm = ({ customButton }: UseHabitFormProps = {}) => {
           disabled: disabled ?? isOpen,
         })
       ) : (
-        <Button disabled={isOpen} variant='outlined' onClick={handleOpen}>
+        <Button disabled={isOpen} variant='outlined' onClick={openForm}>
           + Добавить привычку
         </Button>
       )
     },
-    [customButton, handleFormOpen, handleOpen, isOpen]
+    [customButton, handleFormOpen, openForm, isOpen]
   )
 
-  const Form = useCallback(() => {
-    const getState = () => refState.current
+  const Form = useCallback(
+    ({ onSave }: { onSave?: () => void }) => {
+      const getState = () => refState.current
 
-    return isOpen ? <HabitForm habit={getState().habit} onClose={handleFormClose} /> : null
-  }, [handleFormClose, isOpen])
+      const handleClose = () => {
+        handleFormClose()
+        onSave?.()
+      }
+
+      return isOpen ? <HabitForm habit={getState().habit} onClose={handleClose} /> : null
+    },
+    [handleFormClose, isOpen]
+  )
 
   return useMemo(
     () => ({ Form, handleOpen: handleFormOpen, handleClose: handleFormClose, FormButton, isOpen }),

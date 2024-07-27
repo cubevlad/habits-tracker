@@ -12,7 +12,7 @@ type UseNotesFormProps = {
 }
 
 export const useNotesForm = ({ customButton }: UseNotesFormProps = {}) => {
-  const { value: isOpen, setTrue: handleOpen, setFalse: handleClose } = useBoolean()
+  const { value: isOpen, setTrue: openForm, setFalse: closeFrom } = useBoolean()
 
   const refState = useRef<{ note?: Note; createdAt?: Date | string }>({
     note: undefined,
@@ -22,16 +22,16 @@ export const useNotesForm = ({ customButton }: UseNotesFormProps = {}) => {
   const handleFormClose = useCallback(() => {
     refState.current.note = undefined
     refState.current.createdAt = undefined
-    handleClose()
-  }, [handleClose])
+    closeFrom()
+  }, [closeFrom])
 
   const handleFormOpen = useCallback(
     (note?: Note, createdAt?: Date | string) => {
       refState.current.note = note
       refState.current.createdAt = createdAt
-      handleOpen()
+      openForm()
     },
-    [handleOpen]
+    [openForm]
   )
 
   const FormButton = useCallback(
@@ -42,20 +42,28 @@ export const useNotesForm = ({ customButton }: UseNotesFormProps = {}) => {
           disabled: disabled ?? isOpen,
         })
       ) : (
-        <Button disabled={isOpen} variant='contained' onClick={handleOpen}>
+        <Button disabled={isOpen} variant='contained' onClick={openForm}>
           Добавить заметку
         </Button>
       ),
-    [customButton, handleFormOpen, handleOpen, isOpen]
+    [customButton, handleFormOpen, openForm, isOpen]
   )
 
-  const Form = useCallback(() => {
-    const getState = () => refState.current
+  const Form = useCallback(
+    ({ onSave }: { onSave?: () => void }) => {
+      const getState = () => refState.current
 
-    return isOpen ? (
-      <NoteForm createdAt={getState().createdAt} note={getState().note} onClose={handleFormClose} />
-    ) : null
-  }, [handleFormClose, isOpen])
+      const handleClose = () => {
+        handleFormClose()
+        onSave?.()
+      }
+
+      return isOpen ? (
+        <NoteForm createdAt={getState().createdAt} note={getState().note} onClose={handleClose} />
+      ) : null
+    },
+    [handleFormClose, isOpen]
+  )
 
   return useMemo(
     () => ({ Form, handleOpen: handleFormOpen, handleClose: handleFormClose, FormButton, isOpen }),

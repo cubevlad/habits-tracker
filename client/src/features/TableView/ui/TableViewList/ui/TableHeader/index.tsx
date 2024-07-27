@@ -6,6 +6,7 @@ type Base = {
   shortWeekDayName: string
   id: string
   dayOfTheMonth: number
+  isCurrent: boolean
 }
 
 type ColgroupProps<T extends Base> = {
@@ -17,15 +18,19 @@ export const TableHeader = observer(<T extends Base>({ list }: ColgroupProps<T>)
     <StyledTableHeader>
       <StyledTableRow>
         <StyledTableTh rowSpan={2}>Привычки</StyledTableTh>
-        {list.map(({ id, shortWeekDayName }) => (
-          <StyledTableTh key={id}>{shortWeekDayName}</StyledTableTh>
+        {list.map(({ id, shortWeekDayName, isCurrent }) => (
+          <StyledTableTh key={id} $isCurrent={isCurrent}>
+            {shortWeekDayName}
+          </StyledTableTh>
         ))}
         <StyledTableTh rowSpan={2}>Цель</StyledTableTh>
         <StyledTableTh rowSpan={2}>Выполнено</StyledTableTh>
       </StyledTableRow>
       <StyledTableRow>
-        {list.map(({ id, dayOfTheMonth }) => (
-          <StyledTableTh key={id}>{dayOfTheMonth}</StyledTableTh>
+        {list.map(({ id, dayOfTheMonth, isCurrent }) => (
+          <StyledTableTh key={id} $isCurrent={isCurrent}>
+            {dayOfTheMonth}
+          </StyledTableTh>
         ))}
       </StyledTableRow>
     </StyledTableHeader>

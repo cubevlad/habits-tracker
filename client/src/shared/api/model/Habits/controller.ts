@@ -1,5 +1,4 @@
 import type { AxiosInstance } from 'axios'
-import { format } from 'date-fns'
 
 import type { Habit, HabitRecord } from '@shared/types'
 
@@ -21,14 +20,7 @@ export class HabitsController {
       params: { start_date, end_date },
     })
 
-    return data.map((habit) => ({
-      ...habit,
-      records: habit.records.map((record) => ({
-        ...record,
-        done: record.done ?? false,
-        date: format(new Date(record.date), 'yyyy-MM-dd'),
-      })),
-    }))
+    return data
   }
 
   public createHabit = async (habit: Pick<Habit, 'goal' | 'name'>) => {

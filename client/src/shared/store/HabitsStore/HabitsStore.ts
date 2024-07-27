@@ -5,7 +5,7 @@ import type { Api } from '@shared/api'
 import { getFirstAndLastDayOfMonth } from '@shared/lib'
 import type { Habit, HabitRecord } from '@shared/types'
 
-import { createFlatHabitsWithFlatRecordsList } from './lib'
+import { createFlatHabitsWithFlatRecordsList, createFlatRecordsList } from './lib'
 
 export class HabitsStore {
   private readonly transportLayer: Api
@@ -42,9 +42,11 @@ export class HabitsStore {
 
   createHabit = async (habit: Pick<Habit, 'goal' | 'name' | 'startedAt'>) => {
     const habitFromServer = await this.transportLayer.habitsService.habits.createHabit(habit)
+    const habitFromServerWithFlatRecordList = createFlatRecordsList(habitFromServer)
 
     runInAction(() => {
       this.habits.push(habitFromServer)
+      this.flatHabitsWithFlatRecordsList[habitFromServer.id] = habitFromServerWithFlatRecordList
     })
   }
 
