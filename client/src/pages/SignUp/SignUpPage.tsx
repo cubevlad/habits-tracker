@@ -15,7 +15,7 @@ import { StyledForm, StyledFormWrapper, StyledSubmitButton, StyledTitle } from '
 import { signUpSchema, type SingUpForm } from './model'
 
 export const SignUpPage: React.FC = () => {
-  const { handleLogout: setIsAuth } = useAuthCtx()
+  const { handleLogin } = useAuthCtx()
   const methods = useForm({
     defaultValues: { ...DEFAULT_LOGIN_FORM_VALUES },
     mode: 'onBlur',
@@ -35,7 +35,7 @@ export const SignUpPage: React.FC = () => {
       try {
         const resp = await api.userService.user.signUp({ ...user })
         localStorage.setItem('local-token', resp.accessToken)
-        setIsAuth(true)
+        handleLogin()
       } catch (error) {
         if (error instanceof AxiosError) {
           setError('name', { message: error.response?.data.message })
@@ -43,7 +43,7 @@ export const SignUpPage: React.FC = () => {
         }
       }
     },
-    [setError, setIsAuth]
+    [setError, handleLogin]
   )
 
   useEffect(() => {
