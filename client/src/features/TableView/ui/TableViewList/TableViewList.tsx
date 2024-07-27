@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 
 import { useStore } from '@shared/context'
 import type { TableViewItem } from '@shared/types'
+import { Notes } from '@shared/ui'
 import { StyledTableWrapper, StyledTable } from '@styles'
 
 import { TableHeader, TableBody, Colgroup } from './ui'
@@ -16,7 +17,7 @@ export const TableViewList: React.FC<TableViewListProps> = observer(({ list }) =
   } = useStore()
 
   return (
-    <div>
+    <>
       <StyledTableWrapper>
         <StyledTable>
           <Colgroup list={list} />
@@ -24,6 +25,7 @@ export const TableViewList: React.FC<TableViewListProps> = observer(({ list }) =
           <TableBody habits={habits} list={list} />
         </StyledTable>
       </StyledTableWrapper>
-    </div>
+      <Notes />
+    </>
   )
 })

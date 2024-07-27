@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextareaAutosize } from '@mui/material'
@@ -47,7 +47,7 @@ export const NoteForm = observer(({ note, onClose, createdAt: createdAtProp }: N
     onClose?.()
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (note) {
       reset({
         ...DEFAULT_NOTE_FORM_VALUES,

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '@mui/material'
@@ -45,7 +45,7 @@ export const HabitForm: React.FC<HabitFormProps> = observer(({ habit: habitProp,
     reset(DEFAULT_HABIT_FORM_VALUES)
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (habitProp) {
       reset(habitProp)
     }

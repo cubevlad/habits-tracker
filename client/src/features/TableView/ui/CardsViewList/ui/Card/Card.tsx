@@ -1,10 +1,10 @@
-import { useState } from 'react'
-
 import { ArrowBack } from '@mui/icons-material'
 import { IconButton, Stack, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
+import { flushSync } from 'react-dom'
 
 import { useFormCtx, useStore } from '@shared/context'
+import { useBoolean } from '@shared/lib'
 import type { TableViewItem } from '@shared/types'
 import { Dialog } from '@shared/ui'
 
@@ -21,20 +21,6 @@ export const Card: React.FC<CardProps> = observer(({ item }) => {
     habitStore: { habits, flatHabitsWithFlatRecordsList },
   } = useStore()
 
-  const dayName = item.weekDayName
-  const notesLength = (getNotesById(item.id) ?? []).length
-  const habitsLength = habits.length
-
-  const isCardAchieved = !habits.length
-    ? false
-    : habits.every((habit) => flatHabitsWithFlatRecordsList[habit.id][item.habitRecordId]?.done)
-
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const handleDialogOpen = () => setIsDialogOpen(true)
-  const handleDialogClose = () => setIsDialogOpen(false)
-
-  const handleItemClick = () => !item.disabled && handleDialogOpen()
-
   const {
     NoteForm,
     NoteFormButton,
@@ -46,12 +32,29 @@ export const Card: React.FC<CardProps> = observer(({ item }) => {
     handleHabitsFormClose,
   } = useFormCtx()
 
+  const { value: isDialogOpen, setFalse: closeDialog, setTrue: openDialog } = useBoolean()
+
   const areFormsClosed = !isNoteFormOpen && !isHabitsFormOpen
+
+  const dayName = item.weekDayName
+  const notesLength = (getNotesById(item.id) ?? []).length
+  const habitsLength = habits.length
+
+  const isCardAchieved = !habits.length
+    ? false
+    : habits.every((habit) => flatHabitsWithFlatRecordsList[habit.id][item.habitRecordId]?.done)
 
   const handleStepBack = () => {
     if (isNoteFormOpen) handleNoteFormClose()
     if (isHabitsFormOpen) handleHabitsFormClose()
   }
+
+  const handleDialogClose = () => {
+    flushSync(() => closeDialog(), [closeDialog])
+    handleStepBack()
+  }
+
+  const handleItemClick = () => !item.disabled && openDialog()
 
   return (
     <>
@@ -77,8 +80,8 @@ export const Card: React.FC<CardProps> = observer(({ item }) => {
       <Dialog
         customDialogActions={
           <>
-            {HabitsFormButton}
-            {NoteFormButton}
+            <HabitsFormButton disabled={!areFormsClosed} />
+            <NoteFormButton disabled={!areFormsClosed} />
           </>
         }
         customHeader={

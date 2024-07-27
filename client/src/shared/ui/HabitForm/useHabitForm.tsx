@@ -28,15 +28,21 @@ export const useHabitForm = ({ customButton }: UseHabitFormProps = {}) => {
     [handleOpen]
   )
 
-  const FormButton = useMemo(() => {
-    return customButton ? (
-      cloneElement(customButton, { onClick: () => handleFormOpen(), disabled: isOpen })
-    ) : (
-      <Button disabled={isOpen} variant='outlined' onClick={handleOpen}>
-        + Добавить привычку
-      </Button>
-    )
-  }, [customButton, handleFormOpen, handleOpen, isOpen])
+  const FormButton = useCallback(
+    ({ disabled }: { disabled?: boolean }) => {
+      return customButton ? (
+        cloneElement(customButton, {
+          onClick: () => handleFormOpen(),
+          disabled: disabled ?? isOpen,
+        })
+      ) : (
+        <Button disabled={isOpen} variant='outlined' onClick={handleOpen}>
+          + Добавить привычку
+        </Button>
+      )
+    },
+    [customButton, handleFormOpen, handleOpen, isOpen]
+  )
 
   const Form = useCallback(() => {
     const getState = () => refState.current

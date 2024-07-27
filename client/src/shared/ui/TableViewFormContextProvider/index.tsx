@@ -4,9 +4,11 @@ import { Button } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 import { FormContextProvider } from '@shared/context'
-import { useNotesForm, useHabitForm } from '@shared/ui'
 
 import { BUTTON_STYLES } from './constants'
+
+import { useHabitForm } from '../HabitForm'
+import { useNotesForm } from '../Notes'
 
 type TableViewFormContextProps = {
   children?: React.ReactNode

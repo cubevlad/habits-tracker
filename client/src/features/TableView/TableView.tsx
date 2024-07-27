@@ -2,9 +2,9 @@ import { observer } from 'mobx-react-lite'
 
 import { useStore, useViewModeCtx } from '@shared/context'
 import { createTableViewItemsList, getCurrentViewMode } from '@shared/lib'
+import { TableViewFormContextProvider } from '@shared/ui'
 
 import { MAX_ITEMS_LENGTH_AVAILABLE_TO_RENDER } from './lib'
-import { TableViewFormContextProvider } from './model'
 import { CardsViewList, TableViewList } from './ui'
 
 export const TableView: React.FC = observer(() => {
@@ -33,9 +33,17 @@ export const TableView: React.FC = observer(() => {
   ]
 
   return (
-    <TableViewFormContextProvider>
-      {isCardsView ? <CardsViewList list={tableItemsToRender} /> : null}
-      {isTableView ? <TableViewList list={daysOfMonthList} /> : null}
-    </TableViewFormContextProvider>
+    <>
+      {isCardsView ? (
+        <TableViewFormContextProvider>
+          <CardsViewList list={tableItemsToRender} />
+        </TableViewFormContextProvider>
+      ) : null}
+      {isTableView ? (
+        <TableViewFormContextProvider>
+          <TableViewList list={daysOfMonthList} />
+        </TableViewFormContextProvider>
+      ) : null}
+    </>
   )
 })

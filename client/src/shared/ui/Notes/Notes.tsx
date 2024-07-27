@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 import { useStore } from '@shared/context'
@@ -13,9 +12,6 @@ export const Notes: React.FC = observer(() => {
 
   return (
     <StyledNotesWrapper>
-      <Typography mb={2} variant='h5'>
-        Заметки
-      </Typography>
       <NotesList notes={notes} />
     </StyledNotesWrapper>
   )

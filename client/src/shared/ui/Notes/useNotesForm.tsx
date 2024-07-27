@@ -34,10 +34,13 @@ export const useNotesForm = ({ customButton }: UseNotesFormProps = {}) => {
     [handleOpen]
   )
 
-  const FormButton = useMemo(
-    () =>
+  const FormButton = useCallback(
+    ({ disabled }: { disabled?: boolean }) =>
       customButton ? (
-        cloneElement(customButton, { onClick: () => handleFormOpen(), disabled: isOpen })
+        cloneElement(customButton, {
+          onClick: () => handleFormOpen(),
+          disabled: disabled ?? isOpen,
+        })
       ) : (
         <Button disabled={isOpen} variant='contained' onClick={handleOpen}>
           Добавить заметку
