@@ -29,7 +29,11 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 
 // enabling CORS for all requests
-app.use(cors())
+app.use(
+  cors({
+    origin: process.env.FRONTEND_APP_URL,
+  })
+)
 
 // adding morgan to log HTTP requests
 app.use(morgan('combined'))
