@@ -15,6 +15,8 @@ dotenv.config({
   path: '../.env',
 })
 
+console.log(process.env.FRONTEND_APP_URL)
+
 // defining the Express app
 const app = express()
 
