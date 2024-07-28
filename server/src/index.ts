@@ -1,5 +1,5 @@
 import express from 'express'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 import { json, urlencoded } from 'body-parser'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -22,7 +22,7 @@ const app = express()
 app.use(httpLogger)
 
 // adding Helmet to enhance your Rest API's security
-app.use(helmet())
+// app.use(helmet())
 
 // using bodyParser to parse JSON bodies into JS objects
 app.use(json())
