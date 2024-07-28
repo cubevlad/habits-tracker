@@ -18,6 +18,20 @@ dotenv.config({
 // defining the Express app
 const app = express()
 
+// enabling CORS for all requests
+app.use(
+  cors({
+    origin: process.env.FRONTEND_APP_URL,
+  })
+)
+
+app.options(
+  '*',
+  cors({
+    origin: process.env.FRONTEND_APP_URL,
+  })
+)
+
 // adding logger
 app.use(httpLogger)
 
@@ -27,22 +41,6 @@ app.use(helmet())
 // using bodyParser to parse JSON bodies into JS objects
 app.use(json())
 app.use(urlencoded({ extended: true }))
-
-// enabling CORS for all requests
-app.use(
-  cors({
-    origin: process.env.FRONTEND_APP_URL,
-    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
-  })
-)
-
-app.options(
-  '*',
-  cors({
-    origin: process.env.FRONTEND_APP_URL,
-    allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
-  })
-)
 
 // adding morgan to log HTTP requests
 app.use(morgan('combined'))
