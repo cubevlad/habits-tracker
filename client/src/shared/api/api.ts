@@ -26,7 +26,7 @@ class Api extends EventEmitter {
     super()
 
     this.instance = axios.create({
-      baseURL: config.baseURL ?? '/api/v1/',
+      baseURL: config.baseURL,
       headers: config.headers ?? Api.commonHeaders,
       timeout: config.timeout ?? 120000,
     })
@@ -66,5 +66,5 @@ class Api extends EventEmitter {
   }
 }
 
-const api = new Api({ baseURL: API_URL })
+const api = new Api({ baseURL: API_URL ?? '/api/v1/' })
 export { api, Api }

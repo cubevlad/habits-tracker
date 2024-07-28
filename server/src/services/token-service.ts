@@ -2,7 +2,7 @@ import { PrismaService } from './prisma-service'
 import { sign } from 'jsonwebtoken'
 import { Request } from 'express'
 import { decode } from 'jsonwebtoken'
-import { TypedJwtPayload } from 'src/typings/global'
+import { TypedJwtPayload } from '../typings/global'
 class TokenService extends PrismaService {
   /**
    * generate tokens pair - access and refresh
